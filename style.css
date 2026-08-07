@@ -1,0 +1,47 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+#intro-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #63d1e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    text-align: center;
+    color: #4a4a4a;
+}
+
+#intro-screen h1 { color: #55589e; margin-bottom: 5px; font-size: 1.8em; }
+#intro-screen p { color: #55589e; font-size: 1.2em; margin: 5px 0; }
+#intro-screen .highlight { margin-top: 20px; margin-bottom: 40px; color: #55589e; }
+#start-btn {
+    padding: 15px 40px; font-size: 1.5em; font-weight: bold;
+    background-color: white; color: black; border: 2px solid #ccc;
+    border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+#start-btn:hover { background-color: #f0f0f0; transform: scale(1.05); }
+
+#map-screen { display: none; height: 100%; width: 100%; position: relative; }
+#map { height: 100%; width: 100%; }
+
+.dashboard-panel {
+    position: absolute; z-index: 1000; background: white;
+    padding: 10px 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+#stats-panel { top: 20px; right: 20px; display: flex; gap: 20px; font-size: 0.9em; text-align: center; }
+.stat-item { border-right: 1px solid #ddd; padding-right: 20px; }
+.stat-item:last-child { border-right: none; padding-right: 0; }
+.stat-item .title { font-weight: bold; margin-bottom: 5px; }
+
+#timer-panel { bottom: 20px; left: 20px; font-size: 2em; font-weight: bold; }
+
+.custom-hub-icon { background-color: white; border: 3px solid #333; border-radius: 50%; width: 14px; height: 14px; }
+.mode-selection-popup { display: flex; gap: 10px; padding: 5px; }
+.mode-btn { background: white; border: 1px solid #ccc; border-radius: 4px; padding: 5px; cursor: pointer; font-size: 1.2em; width: 35px; height: 35px; }
