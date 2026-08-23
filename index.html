@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimodal Transport Planner</title>
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
-    <!-- Custom CSS -->
+    
     <style>
         body, html {
             height: 100vh;
@@ -81,8 +80,7 @@
         </div>
         <div id="timer-panel" class="dashboard-panel">30:00</div>
     </div>
-
-    <!-- Leaflet JS -->
+    
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let map, currentLocationMarker, currentHubId = 'pleiku';
@@ -115,7 +113,6 @@
             
             initMap();
             
-            // Ép bản đồ load lại kích thước và tile chuẩn xác
             setTimeout(function() {
                 if(map) map.invalidateSize();
             }, 100);
@@ -124,10 +121,9 @@
         });
 
         function initMap() {
-            if (map) return; // Tránh khởi tạo nhiều lần
+            if (map) return; 
             map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
-            
-            // Dùng Esri Map chống lỗi mạng / connection refused
+        
             L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
                 attribution: 'Tiles &copy; Esri',
                 maxZoom: 16
