@@ -30,14 +30,13 @@ document.getElementById('start-btn').addEventListener('click', function() {
     }, 100);
     startTimer(30 * 60, document.getElementById('timer-panel'));
 });
-
 function initMap() {
     map = L.map('map', { center: [20.0, 70.0], zoom: 3, minZoom: 2, maxZoom: 10 });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd',
-    maxZoom: 19
-}).addTo(map);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        maxZoom: 16
+    }).addTo(map);
+
     currentLocationMarker = L.marker([hubs['pleiku'].lat, hubs['pleiku'].lng]).addTo(map).bindPopup("<b>TP. Pleiku</b>");
     drawAvailableNextHubs();
 }
