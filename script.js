@@ -33,7 +33,7 @@ document.getElementById('start-btn').addEventListener('click', function() {
 
 function initMap() {
     map = L.map('map', { center: [20.0, 70.0], zoom: 3, minZoom: 2, maxZoom: 10 });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
     currentLocationMarker = L.marker([hubs['pleiku'].lat, hubs['pleiku'].lng]).addTo(map).bindPopup("<b>TP. Pleiku</b>");
     drawAvailableNextHubs();
 }
