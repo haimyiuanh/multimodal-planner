@@ -6,11 +6,15 @@ const hubs = {
     'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
     'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } 
 };
-
 const routes = [
     { 
         from: 'pleiku', 
         to: 'icd_song_than', 
+        path: [                      
+            [13.9833, 108.0000],     
+            [12.6666, 108.0333],     
+            [10.9167, 106.7500]      
+        ],
         modes: [
             { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 15000000, time: 1.5, co2: 500, color: 'blue' }
         ] 
@@ -48,8 +52,11 @@ window.selectMode = function(nextHubId, modeIndex) {
     const route = routes.find(r => r.from === currentHubId && r.to === nextHubId);
     const selectedMode = route.modes[modeIndex];
     const nextHub = hubs[nextHubId];
-    
-    L.polyline([[hubs[currentHubId].lat, hubs[currentHubId].lng], [nextHub.lat, nextHub.lng]], {color: selectedMode.color, weight: 4}).addTo(map);
+const routeCoords = route.path ? route.path : [
+    [hubs[currentHubId].lat, hubs[currentHubId].lng], 
+    [nextHub.lat, nextHub.lng]
+];
+L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
     currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
     
     totalCost += selectedMode.cost; 
