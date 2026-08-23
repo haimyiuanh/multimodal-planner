@@ -11,8 +11,10 @@
     <!-- Custom CSS -->
     <style>
         body, html {
-            height: 100%;
+            height: 100vh;
+            width: 100vw;
             margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
         }
@@ -40,7 +42,7 @@
         }
         #start-btn:hover { background-color: #f0f0f0; transform: scale(1.05); }
         
-        #map-screen { display: none; height: 100%; width: 100%; position: relative; }
+        #map-screen { display: none; height: 100vh; width: 100vw; position: relative; }
         #map { height: 100%; width: 100%; }
 
         .dashboard-panel {
@@ -80,23 +82,57 @@
         <div id="timer-panel" class="dashboard-panel">30:00</div>
     </div>
 
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let map, currentLocationMarker, currentHubId = 'pleiku';
         let totalTime = 0, totalCost = 0, totalCO2 = 0;
-        const hubs = { 'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } };
-        const routes = [{ from: 'pleiku', to: 'icd_song_than', modes: [{ type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 15000000, time: 1.5, co2: 500, color: 'blue' }] }];
+        
+        const hubs = { 
+            'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
+            'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
+            'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } 
+        };
+        
+        const routes = [
+            { 
+                from: 'pleiku', 
+                to: 'icd_song_than', 
+                path: [                     
+                    [13.9833, 108.0000],     
+                    [12.6666, 108.0333],     
+                    [10.9167, 106.7500]      
+                ],
+                modes: [
+                    { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 15000000, time: 1.5, co2: 500, color: 'blue' }
+                ] 
+            }
+        ];
 
         document.getElementById('start-btn').addEventListener('click', function() {
             document.getElementById('intro-screen').style.display = 'none';
             document.getElementById('map-screen').style.display = 'block';
+            
             initMap();
+            
+            // Ép bản đồ load lại kích thước và tile chuẩn xác
+            setTimeout(function() {
+                if(map) map.invalidateSize();
+            }, 100);
+
             startTimer(30 * 60, document.getElementById('timer-panel'));
         });
 
         function initMap() {
-            map = L.map('map', { center: [20.0, 70.0], zoom: 3, minZoom: 2, maxZoom: 10 });
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+            if (map) return; // Tránh khởi tạo nhiều lần
+            map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
+            
+            // Dùng Esri Map chống lỗi mạng / connection refused
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri',
+                maxZoom: 16
+            }).addTo(map);
+
             currentLocationMarker = L.marker([hubs['pleiku'].lat, hubs['pleiku'].lng]).addTo(map).bindPopup("<b>TP. Pleiku</b>");
             drawAvailableNextHubs();
         }
@@ -107,7 +143,9 @@
                 const nextHub = hubs[route.to];
                 const marker = L.marker([nextHub.lat, nextHub.lng], {icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})}).addTo(map);
                 let popupContent = `<div class="mode-selection-popup">`;
-                route.modes.forEach((mode, index) => { popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})">${mode.icon}</div>`; });
+                route.modes.forEach((mode, index) => { 
+                    popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})">${mode.icon}</div>`; 
+                });
                 marker.bindPopup(popupContent);
             });
         }
@@ -116,13 +154,26 @@
             const route = routes.find(r => r.from === currentHubId && r.to === nextHubId);
             const selectedMode = route.modes[modeIndex];
             const nextHub = hubs[nextHubId];
-            L.polyline([[hubs[currentHubId].lat, hubs[currentHubId].lng], [nextHub.lat, nextHub.lng]], {color: selectedMode.color, weight: 4}).addTo(map);
+            
+            const routeCoords = route.path ? route.path : [
+                [hubs[currentHubId].lat, hubs[currentHubId].lng], 
+                [nextHub.lat, nextHub.lng]
+            ];
+            
+            L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
             currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
-            totalCost += selectedMode.cost; totalTime += selectedMode.time; totalCO2 += selectedMode.co2;
+            
+            totalCost += selectedMode.cost; 
+            totalTime += selectedMode.time; 
+            totalCO2 += selectedMode.co2;
+            
             document.getElementById('stat-cost').innerText = totalCost.toLocaleString('vi-VN');
             document.getElementById('stat-time').innerText = totalTime.toFixed(1);
             document.getElementById('stat-co2').innerText = totalCO2.toFixed(0);
-            currentHubId = nextHubId; map.closePopup(); drawAvailableNextHubs();
+            
+            currentHubId = nextHubId; 
+            map.closePopup(); 
+            drawAvailableNextHubs();
         };
 
         function startTimer(duration, display) {
