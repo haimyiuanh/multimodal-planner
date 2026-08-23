@@ -25,6 +25,9 @@ document.getElementById('start-btn').addEventListener('click', function() {
     document.getElementById('intro-screen').style.display = 'none';
     document.getElementById('map-screen').style.display = 'block';
     initMap();
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 100);
     startTimer(30 * 60, document.getElementById('timer-panel'));
 });
 
