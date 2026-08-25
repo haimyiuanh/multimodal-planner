@@ -1,5 +1,5 @@
 let map, currentLocationMarker, currentHubId = 'pleiku';
-let totalTime = 0, totalCost = 0, totalCO2 = 0;
+let totalTime = 0, totalCost = 0, totalCO2 = 0, totalDistance = 0;
 
 const hubs = { 
     'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
@@ -16,7 +16,7 @@ const routes = [
             [10.9167, 106.7500]      
         ],
         modes: [
-            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 15000000, time: 1.5, co2: 500, color: 'blue' }
+            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 15000000, time: 1.5, distance: 500; co2: 500, color: 'blue' }
         ] 
     }
 ];
