@@ -4,61 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimodal Transport Planner</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
     
-    <style>
-        body, html {
-            height: 100vh;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-        }
-
-        #intro-screen {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #63d1e0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            text-align: center;
-            color: #4a4a4a;
-        }
-
-        #intro-screen h1 { color: #55589e; margin-bottom: 5px; font-size: 1.8em; }
-        #intro-screen p { color: #55589e; font-size: 1.2em; margin: 5px 0; }
-        #intro-screen .highlight { margin-top: 20px; margin-bottom: 40px; color: #55589e; }
-        #start-btn {
-            padding: 15px 40px; font-size: 1.5em; font-weight: bold;
-            background-color: white; color: black; border: 2px solid #ccc;
-            border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        #start-btn:hover { background-color: #f0f0f0; transform: scale(1.05); }
-        
-        #map-screen { display: none; height: 100vh; width: 100vw; position: relative; }
-        #map { height: 100%; width: 100%; }
-
-        .dashboard-panel {
-            position: absolute; z-index: 1000; background: white;
-            padding: 10px 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        #stats-panel { top: 20px; right: 20px; display: flex; gap: 20px; font-size: 0.9em; text-align: center; }
-        .stat-item { border-right: 1px solid #ddd; padding-right: 20px; }
-        .stat-item:last-child { border-right: none; padding-right: 0; }
-        .stat-item .title { font-weight: bold; margin-bottom: 5px; }
-        
-        #timer-panel { bottom: 20px; left: 20px; font-size: 2em; font-weight: bold; }
-        
-        .custom-hub-icon { background-color: white; border: 3px solid #333; border-radius: 50%; width: 14px; height: 14px; }
-        .mode-selection-popup { display: flex; gap: 10px; padding: 5px; }
-        .mode-btn { background: white; border: 1px solid #ccc; border-radius: 4px; padding: 5px; cursor: pointer; font-size: 1.2em; width: 35px; height: 35px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="intro-screen">
@@ -75,138 +25,13 @@
         <div id="stats-panel" class="dashboard-panel">
             <div class="stat-item"><div class="title">Thời gian</div><div class="value" id="stat-time">0</div><div class="unit">ngày</div></div>
             <div class="stat-item"><div class="title">Chi phí</div><div class="value" id="stat-cost">0</div><div class="unit">USD</div></div>
-            <div class="stat-item"><div class="title">Khoảng cách</div><div class="value" id="stat-reliability">0</div><div class="unit">km</div></div>
+            <div class="stat-item"><div class="title">Khoảng cách</div><div class="value" id="stat-distance">0</div><div class="unit">km</div></div>
             <div class="stat-item"><div class="title">Phát thải CO2</div><div class="value" id="stat-co2">0</div><div class="unit">kgCO₂</div></div>
         </div>
         <div id="timer-panel" class="dashboard-panel">30:00</div>
     </div>
-    
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        let map, currentLocationMarker, currentHubId = 'pleiku';
-        let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
-        
-        const hubs = { 
-    'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
-    'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
-    'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } 
-};
-const hubs = { 
-    'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
-    'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
-    'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
-    'tan_son_nhat': { name: 'Sân bay Tân Sơn Nhất', lat: 10.8185, lng: 106.6525 }
-};
-
-const routes = [
-    { 
-        from: 'pleiku', 
-        to: 'icd_song_than', 
-        path: [                     
-            [13.9833, 108.0000],     
-            [12.6666, 108.0333],     
-            [12.0000, 107.6800],     
-            [11.5333, 106.9000],     
-            [11.4167, 106.6500],     
-            [10.9800, 106.6800],     
-            [10.9167, 106.7500]      
-        ],
-        modes: [
-            { type: 'rail', icon: '🚆', name: 'Đường sắt', cost: 100, time: 1.6667, co2: 57500 , distance: 550, color: 'green' }
-        ] 
-    },
-    { 
-        from: 'pleiku', 
-        to: 'tan_son_nhat', 
-        path: [                      
-            [13.9833, 108.0000],     
-            [12.6666, 108.0333],     
-            [12.0000, 107.6800],     
-            [11.5333, 106.9000],     
-            [11.4167, 106.6500],     
-            [10.9800, 106.6800],     
-            [10.8185, 106.6525]      
-        ],
-        modes: [
-            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 267.5, time: 0.764, co2: 240750, distance: 535, color: 'blue' }
-        ] 
-    }
-];
-
-        document.getElementById('start-btn').addEventListener('click', function() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('map-screen').style.display = 'block';
-            
-            initMap();
-            
-            setTimeout(function() {
-                if(map) map.invalidateSize();
-            }, 100);
-
-            startTimer(30 * 60, document.getElementById('timer-panel'));
-        });
-
-        function initMap() {
-            if (map) return; 
-            map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
-        
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri',
-                maxZoom: 16
-            }).addTo(map);
-
-            currentLocationMarker = L.marker([hubs['pleiku'].lat, hubs['pleiku'].lng]).addTo(map).bindPopup("<b>TP. Pleiku</b>");
-            drawAvailableNextHubs();
-        }
-
-        function drawAvailableNextHubs() {
-            const availableRoutes = routes.filter(r => r.from === currentHubId);
-            availableRoutes.forEach(route => {
-                const nextHub = hubs[route.to];
-                const marker = L.marker([nextHub.lat, nextHub.lng], {icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})}).addTo(map);
-                let popupContent = `<div class="mode-selection-popup">`;
-                route.modes.forEach((mode, index) => { 
-                    popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})">${mode.icon}</div>`; 
-                });
-                marker.bindPopup(popupContent);
-            });
-        }
-
-        window.selectMode = function(nextHubId, modeIndex) {
-            const route = routes.find(r => r.from === currentHubId && r.to === nextHubId);
-            const selectedMode = route.modes[modeIndex];
-            const nextHub = hubs[nextHubId];
-            
-            const routeCoords = route.path ? route.path : [
-                [hubs[currentHubId].lat, hubs[currentHubId].lng], 
-                [nextHub.lat, nextHub.lng]
-            ];
-            
-            L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
-            currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
-            
-            totalCost += selectedMode.cost; 
-            totalTime += selectedMode.time; 
-            totalCO2 += selectedMode.co2;
-            totalDistance += selectedMode.distance;
-            
-            document.getElementById('stat-cost').innerText = totalCost.toLocaleString('vi-VN');
-            document.getElementById('stat-time').innerText = totalTime.toFixed(1);
-            document.getElementById('stat-co2').innerText = totalCO2.toFixed(0);
-            
-            currentHubId = nextHubId; 
-            map.closePopup(); 
-            drawAvailableNextHubs();
-        };
-
-        function startTimer(duration, display) {
-            let timer = duration;
-            setInterval(function () {
-                let m = parseInt(timer / 60, 10), s = parseInt(timer % 60, 10);
-                display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-                if (--timer < 0) timer = 0;
-            }, 1000);
-        }
-    </script>
+        <script src="script.js"></script>
 </body>
 </html>
