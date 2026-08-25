@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     const routes = [
-        // --- TUYẾN XUẤT PHÁT TỪ PLEIKU (ĐƯỜNG BỘ) ---
         { 
             from: 'pleiku', 
             to: 'cai_mep', 
@@ -44,16 +43,12 @@ document.addEventListener("DOMContentLoaded", function() {
             path: [[13.9833, 108.0000], [16.0471, 108.2068], [21.0285, 105.8542], [21.9438, 106.6972]],
             modes: [{ type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 665.0, time: 2.1, co2: 598.5, distance: 1330, color: 'blue' }] 
         },
-
-        // --- TUYẾN ĐƯỜNG SẮT LIÊN VẬN Á - ÂU (MIDDLE CORRIDOR) ---
         {
             from: 'dong_dang',
             to: 'istanbul',
             path: [[21.9438, 106.6972], [30.0000, 100.0000], [40.0000, 70.0000], [41.2753, 28.7519]],
             modes: [{ type: 'rail', icon: '🚆', name: 'Đường sắt (Middle Corridor)', cost: 1700.0, time: 9.5, co2: 977.5, distance: 8500, color: 'green' }]
         },
-
-        // --- TUYẾN HÀNG KHÔNG TỪ TÂN SƠN NHẤT ---
         { 
             from: 'tan_son_nhat', 
             to: 'doha', 
@@ -78,8 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
             path: [[10.8185, 106.6525], [16.0000, 95.0000], [25.2532, 55.3657]],
             modes: [{ type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 12654.0, time: 0.9, co2: 16872.0, distance: 5624, color: 'purple' }] 
         },
-
-        // --- TUYẾN HÀNG KHÔNG TỪ LONG THÀNH ---
         { 
             from: 'long_thanh', 
             to: 'singapore', 
@@ -104,9 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
             path: [[10.7800, 107.1500], [16.0000, 110.0000], [22.3193, 114.1694]],
             modes: [{ type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 3348.0, time: 0.6, co2: 4464.0, distance: 1488, color: 'purple' }] 
         },
-
-        // --- TUYẾN ĐƯỜNG BIỂN TỪ CÁI MÉP ---
-        { 
+        {
             from: 'cai_mep', 
             to: 'singapore', 
             path: [[10.5500, 107.0333], [7.0000, 105.0000], [1.3644, 103.9915]],
@@ -124,8 +115,6 @@ document.addEventListener("DOMContentLoaded", function() {
             path: [[10.5500, 107.0333], [15.0000, 112.0000], [22.3193, 114.1694]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 223.2, time: 4.0, co2: 111.6, distance: 1488, color: 'blue' }] 
         },
-
-        // --- TUYẾN QUỐC TẾ NỐI TIẾP (AIR & SEA) ---
         { 
             from: 'doha', 
             to: 'istanbul', 
