@@ -6,7 +6,6 @@ body, html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
 }
-    
 #intro-screen {
     display: flex;
     flex-direction: column;
@@ -15,25 +14,17 @@ body, html {
     min-height: 100vh;       
     text-align: center;      
     padding: 20px;
-    z-index: 2000;
-    color: #4a4a4a;
-    background-color: #63d1e0;
     box-sizing: border-box;
 }
-
 #intro-screen h1, 
 #intro-screen p {
-    max-width: 900px;        
+    max-width: 900px;       
     margin-bottom: 20px;
-    color: #55589e;
-    font-size: 1.8em; }
+}
+
 #intro-screen button {
-    margin-top: 20px; 
-    color: #55589e; 
-    font-size: 1.2em;
-    }
-#intro-screen .highlight { margin-top: 20px; margin-bottom: 40px; color: #55589e; }
-#start-btn {
+    margin-top: 20px;
+}#start-btn {
     padding: 15px 40px; font-size: 1.5em; font-weight: bold;
     background-color: white; color: black; border: 2px solid #ccc;
     border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
