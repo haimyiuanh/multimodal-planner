@@ -152,7 +152,13 @@ document.addEventListener("DOMContentLoaded", function() {
             to: 'istanbul', 
             path: [[25.0145, 55.0592], [20.0000, 60.0000], [12.8000, 45.0000], [27.5000, 34.0000], [29.9000, 32.5000], [35.0000, 25.0000], [41.2753, 28.7519]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 1195.4, time: 17.9, co2: 597.7, distance: 7969, color: 'blue' }] 
-        }
+        },
+        { 
+            from: 'jebel_ali', 
+            to: 'dubai', 
+            path: [[25.0145, 55.0592], [25.2532, 55.3657]],
+            modes: [{ type: 'truck', icon: '🚚', name: 'Trung chuyển Sea-Air', cost: 50.0, time: 0.1, co2: 18.0, distance: 40, color: 'blue' }] 
+}
     ];
 
     const introScreen = document.getElementById('intro-screen');
