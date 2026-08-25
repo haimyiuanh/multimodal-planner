@@ -75,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const introScreen = document.getElementById('intro-screen');
     const mapScreen = document.getElementById('map-screen');
-    if (localStorage.getItem('appStarted') === 'true') {
+
+    // Kiểm tra nếu đã bấm bắt đầu trong phiên làm việc này, khi F5 sẽ giữ ở trang map
+    if (sessionStorage.getItem('appStarted') === 'true') {
         if (introScreen) introScreen.style.display = 'none';
         if (mapScreen) mapScreen.style.display = 'block';
         
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() { if(map) map.invalidateSize(); }, 100);
         startTimer();
     } else {
+        // Mở link lần đầu sẽ hiện thị màn hình hướng dẫn và nút Bắt đầu
         if (introScreen) introScreen.style.display = 'block';
         if (mapScreen) mapScreen.style.display = 'none';
     }
@@ -91,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
         startBtn.addEventListener('click', function() {
-            localStorage.setItem('appStarted', 'true');
-            localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
+            sessionStorage.setItem('appStarted', 'true');
+            sessionStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
 
             if (introScreen) introScreen.style.display = 'none';
             if (mapScreen) mapScreen.style.display = 'block';
@@ -178,15 +181,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (window.timerInterval) clearInterval(window.timerInterval);
 
-        let endTime = localStorage.getItem('timerEndTime');
+        let endTime = sessionStorage.getItem('timerEndTime');
         let now = Date.now();
         if (!endTime || parseInt(endTime) <= now) {
             endTime = now + 30 * 60 * 1000;
-            localStorage.setItem('timerEndTime', endTime);
+            sessionStorage.setItem('timerEndTime', endTime);
         }
 
         window.timerInterval = setInterval(function () {
-            let currentEndTime = parseInt(localStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
+            let currentEndTime = parseInt(sessionStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
             let timeLeft = Math.floor((currentEndTime - Date.now()) / 1000);
             if (timeLeft < 0) timeLeft = 0;
 
