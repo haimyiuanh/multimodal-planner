@@ -60,7 +60,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     ];
 
-        if (localStorage.getItem('appStarted') === 'true') {
+    // Khôi phục trạng thái giao diện khi reload
+    if (localStorage.getItem('appStarted') === 'true') {
         document.getElementById('intro-screen').style.display = 'none';
         document.getElementById('map-screen').style.display = 'block';
         
@@ -70,19 +71,22 @@ document.addEventListener("DOMContentLoaded", function() {
         startTimer();
     }
 
-    document.getElementById('start-btn').addEventListener('click', function() {
-        localStorage.setItem('appStarted', 'true');
-        if (!localStorage.getItem('timerEndTime')) {
-            localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
-        }
+    const startBtn = document.getElementById('start-btn');
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            localStorage.setItem('appStarted', 'true');
+            if (!localStorage.getItem('timerEndTime')) {
+                localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
+            }
 
-        document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('map-screen').style.display = 'block';
-        
-        initMap();
-        setTimeout(function() { if(map) map.invalidateSize(); }, 100);
-        startTimer();
-    });
+            document.getElementById('intro-screen').style.display = 'none';
+            document.getElementById('map-screen').style.display = 'block';
+            
+            initMap();
+            setTimeout(function() { if(map) map.invalidateSize(); }, 100);
+            startTimer();
+        });
+    }
 
     function initMap() {
         if (map) return; 
@@ -155,9 +159,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function startTimer() {
         const display = document.getElementById('timer-panel');
-        setInterval(function () {
-            const endTime = parseInt(localStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
-            let timeLeft = Math.floor((endTime - Date.now()) / 1000);
+        if (!display) return;
+
+        if (window.timerInterval) clearInterval(window.timerInterval);
+
+        window.timerInterval = setInterval(function () {
+            let endTime = localStorage.getItem('timerEndTime');
+            if (!endTime) {
+                endTime = Date.now() + 30 * 60 * 1000;
+                localStorage.setItem('timerEndTime', endTime);
+            }
+            
+            let timeLeft = Math.floor((parseInt(endTime) - Date.now()) / 1000);
             if (timeLeft < 0) timeLeft = 0;
 
             let m = parseInt(timeLeft / 60, 10), s = parseInt(timeLeft % 60, 10);
