@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
-    
-    // Reset toàn bộ thông số hành trình về ban đầu (Pleiku, stats = 0) theo đúng yêu cầu khi F5
     let currentHubId = 'pleiku';
     let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
