@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const hubs = { 
         'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
-        'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
+        'icd_song_than': { name: 'ICD Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
         'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
-        'tan_son_nhat': { name: 'Sân bay Tân Sơn Nhất', lat: 10.8185, lng: 106.6525 }
+        'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 }
     };
 
     const routes = [
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     ];
 
-    // Lắng nghe sự kiện bấm nút Bắt đầu an toàn
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
         startBtn.addEventListener('click', function() {
@@ -63,14 +62,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function initMap() {
         if (map) return; 
-        map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
+        map = L.map('map', { center: [11.5, 107.0], zoom: 8, minZoom: 2, maxZoom: 15 });
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri',
             maxZoom: 16
         }).addTo(map);
 
-        currentLocationMarker = L.marker([hubs['pleiku'].lat, hubs['pleiku'].lng]).addTo(map).bindPopup("<b>TP. Pleiku</b>");
+        const currentHub = hubs[currentHubId];
+        currentLocationMarker = L.marker([currentHub.lat, currentHub.lng]).addTo(map);
+        currentLocationMarker.bindTooltip(currentHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
+
         drawAvailableNextHubs();
     }
 
@@ -78,11 +80,19 @@ document.addEventListener("DOMContentLoaded", function() {
         const availableRoutes = routes.filter(r => r.from === currentHubId);
         availableRoutes.forEach(route => {
             const nextHub = hubs[route.to];
-            const marker = L.marker([nextHub.lat, nextHub.lng], {icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})}).addTo(map);
+            const marker = L.marker([nextHub.lat, nextHub.lng], {
+                icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})
+            }).addTo(map);
+
+            // Hiển thị tên điểm đến ngay bên dưới marker điểm tiếp theo
+            marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
+
+            // Popup bấm chọn phương thức vận tải
             let popupContent = `<div class="mode-selection-popup">`;
             route.modes.forEach((mode, index) => { 
-                popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})">${mode.icon}</div>`; 
+                popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})" title="${mode.name}">${mode.icon}</div>`; 
             });
+            popupContent += `</div>`;
             marker.bindPopup(popupContent);
         });
     }
@@ -98,7 +108,9 @@ document.addEventListener("DOMContentLoaded", function() {
         ];
         
         L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
+        
         currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
+        currentLocationMarker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
         
         totalCost += selectedMode.cost; 
         totalTime += selectedMode.time; 
