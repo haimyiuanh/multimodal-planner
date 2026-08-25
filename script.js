@@ -45,11 +45,15 @@ document.addEventListener("DOMContentLoaded", function() {
             ],
             modes: [{ type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 665.0, time: 2.1, co2: 598.5, distance: 1330, color: 'blue' }] 
         },
-        {
-            from: 'dong_dang',
-            to: 'istanbul',
-            path: [[21.9438, 106.6972], [30.0000, 100.0000], [40.0000, 70.0000], [41.2753, 28.7519]],
-            modes: [{ type: 'rail', icon: '🚆', name: 'Đường sắt (Middle Corridor)', cost: 1700.0, time: 9.5, co2: 977.5, distance: 8500, color: 'green' }]
+        { 
+            from: 'dong_dang', 
+            to: 'istanbul', 
+            path: [
+                [21.9438, 106.6972],[22.1100, 106.7600],[34.3416, 108.9398],[44.1300, 80.4200],[43.2220, 76.8512],[43.6500, 51.1500],[40.4093, 49.8671],[41.7151, 44.8271],[40.6013, 43.0975],[41.0082, 28.9784]   
+            ],
+            modes: [
+                { type: 'rail', icon: '🚂', name: 'Đường sắt & Phà (Middle Corridor)', cost: 3200.0, time: 18.0, co2: 1200.0, distance: 4764, color: 'green' }
+            ] 
         },
         { 
             from: 'tan_son_nhat', 
