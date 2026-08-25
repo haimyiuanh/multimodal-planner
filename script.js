@@ -10,22 +10,22 @@ document.addEventListener("DOMContentLoaded", function() {
         'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
         'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
         'cang_quy_nhon': { name: 'Cảng Quy Nhơn', lat: 13.7700, lng: 109.2300 },
-        'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 } 
+        'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 },
         'dubai': { name: 'Sân bay Dubai', lat: 25.2532, lng: 55.3657 },
         'singapore': { name: 'Sân bay Changi (SIN)', lat: 1.3644, lng: 103.9915 },
         'cai_mep': { name: 'Cái Mép – Thị Vải', lat: 10.5500, lng: 107.0333 },
-        'hong_kong': { name: 'Sân bay Hong Kong (HKG)', lat: 22.3193, lng: 114.1694 }, 
+        'hong_kong': { name: 'Sân bay Hong Kong (HKG)', lat: 22.3193, lng: 114.1694 }, 
         'istanbul': { name: 'Sân bay Istanbul (IST)', lat: 41.2753, lng: 28.7519 },
         'jebel_ali': { name: 'Cảng Jebel Ali (UAE)', lat: 25.0145, lng: 55.0592 },
         'dong_dang': { name: 'Cửa khẩu Đồng Đăng', lat: 21.9485, lng: 106.6715 },
         'baku': { name: 'Cảng Baku (Azerbaijan)', lat: 40.3777, lng: 49.8920 },
-};
+    };
 
     const routes = [
         { 
             from: 'pleiku', 
             to: 'icd_song_than', 
-            path: [                     
+            path: [                 
                 [13.9833, 108.0000],     
                 [12.6666, 108.0333],     
                 [12.0000, 107.6800],     
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'pleiku', 
             to: 'tan_son_nhat', 
-            path: [                      
+            path: [                  
                 [13.9833, 108.0000],     
                 [12.6666, 108.0333],     
                 [12.0000, 107.6800],     
@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 [10.8185, 106.6525]      
             ],
             modes: [
-                { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 267.5, time: 0.764, co2: 240750, distance: 535, color: 'blue' }
+                { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 1012.0, time: 0.9, co2: 910.8, distance: 506, color: 'blue' }
             ] 
         },
         { 
             from: 'pleiku', 
             to: 'cat_lai', 
-            path: [                      
+            path: [                  
                 [13.9833, 108.0000],     
                 [12.6666, 108.0333],     
                 [12.0000, 107.6800],     
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'pleiku', 
             to: 'cang_quy_nhon', 
-            path: [                      
+            path: [                  
                 [13.9833, 108.0000],     
                 [13.9667, 108.6500],     
                 [13.7700, 109.2300]      
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'tan_son_nhat', 
             to: 'doha', 
-            path: [                      
+            path: [                  
                 [10.8185, 106.6525],     
                 [16.0000, 98.0000],      
                 [22.0000, 80.0000],      
@@ -92,210 +92,211 @@ document.addEventListener("DOMContentLoaded", function() {
                 [25.2731, 51.6081]       
             ],
             modes: [
-                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13502.25, time: 0.4, co2: 18003000, distance: 6001, color: 'purple' }
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 54009.0, time: 0.9, co2: 72012.0, distance: 6001, color: 'purple' }
             ] 
         },
         { 
-        from: 'tan_son_nhat', 
-        to: 'dubai', 
-        path: [                      
-            [10.8185, 106.6525],     
-            [18.0000, 85.0000],      
-            [23.0000, 70.0000],      
-            [25.2532, 55.3657]       
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 12654, time: 0.375, co2: 16872000, distance: 5624, color: 'purple' }
-        ] 
-    },
+            from: 'tan_son_nhat', 
+            to: 'dubai', 
+            path: [                  
+                [10.8185, 106.6525],     
+                [18.0000, 85.0000],      
+                [23.0000, 70.0000],      
+                [25.2532, 55.3657]       
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 12654, time: 0.375, co2: 16872000, distance: 5624, color: 'purple' }
+            ] 
+        },
         { 
-        from: 'tan_son_nhat', 
-        to: 'singapore', 
-        path: [                      
-            [10.8185, 106.6525],     
-            [6.0000, 105.0000],      
-            [1.3644, 103.9915]       
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 2448, time: 0.073, co2: 3264000, distance: 1088, color: 'purple' }
-        ] 
-    },{ 
-        from: 'pleiku', 
-        to: 'cai_mep', 
-        path: [                      
-            [13.9833, 108.0000],     
-            [12.6666, 108.0333],     
-            [12.0000, 107.6800],     
-            [11.2000, 107.1000],     
-            [10.5500, 107.0333]      
-        ],
-        modes: [
-            { type: 'truck', icon: '🚚', name: 'Đường bộ (QL51)', cost: 293.0, time: 0.8, co2: 263700.0, distance: 586, color: 'blue' }
-        ] 
-    },
-    { 
-        from: 'tan_son_nhat', 
-        to: 'hong_kong', 
-        path: [                      
-            [10.8185, 106.6525],    
-            [16.0000, 110.0000],    
-            [22.3193, 114.1694]     
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 3348.0, time: 0.1, co2: 4464000.0, distance: 1488, color: 'purple' }
-        ] 
-    }
-{ 
-        from: 'doha', 
-        to: 'istanbul', 
-        path: [                      
-            [25.2731, 51.6081],     
-            [30.0000, 45.0000],     
-            [36.0000, 36.0000],     
-            [41.2753, 28.7519]      
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 6201.0, time: 0.2, co2: 8268000.0, distance: 2756, color: 'purple' }
-        ] 
-    },
-    { 
-        from: 'dubai', 
-        to: 'istanbul', 
-        path: [                      
-            [25.2532, 55.3657],     
-            [30.0000, 48.0000],     
-            [35.0000, 38.0000],     
-            [41.2753, 28.7519]      
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 6817.5, time: 0.2, co2: 9090000.0, distance: 3030, color: 'purple' }
-        ] 
-    },
-    { 
-        from: 'hong_kong', 
-        to: 'istanbul', 
-        path: [                      
-            [22.3193, 114.1694],    
-            [30.0000, 95.0000],     
-            [38.0000, 70.0000],     
-            [40.0000, 50.0000],     
-            [41.2753, 28.7519]      
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 18047.3, time: 0.5, co2: 24063000.0, distance: 8021, color: 'purple' }
-        ] 
-    },
-    { 
-        from: 'singapore', 
-        to: 'doha', 
-        path: [                      
-            [1.3644, 103.9915],     
-            [6.0000, 90.0000],      
-            [15.0000, 75.0000],     
-            [20.0000, 60.0000],     
-            [25.2731, 51.6081]      
-        ],
-        modes: [
-            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13963.5, time: 0.4, co2: 18618000.0, distance: 6206, color: 'purple' }
-        ] 
-    }
-{ 
-        from: 'cai_mep', 
-        to: 'singapore', 
-        path: [                      
-            [10.5500, 107.0333],     
-            [7.0000, 105.0000],      
-            [1.3644, 103.9915]       
-        ],
-        modes: [
-            { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 209.0, time: 2.8, co2: 104475.0, distance: 1393, color: 'blue' }
-        ] 
-    },
-    { 
-        from: 'cai_mep', 
-        to: 'jebel_ali', 
-        path: [                      
-            [10.5500, 107.0333],     
-            [6.0000, 103.0000],      
-            [5.0000, 80.0000],       
-            [15.0000, 65.0000],      
-            [25.0145, 55.0592]       
-        ],
-        modes: [
-            { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 1308.6, time: 17.4, co2: 654300.0, distance: 8724, color: 'blue' }
-        ] 
-    },
-    { 
-        from: 'singapore', 
-        to: 'istanbul', 
-        path: [                      
-            [1.3644, 103.9915],     
-            [5.0000, 90.0000],      
-            [12.0000, 50.0000],      
-            [12.8000, 45.0000],      
-            [27.5000, 34.0000],      
-            [29.9000, 32.5000],      
-            [35.0000, 25.0000],      
-            [41.2753, 28.7519]       
-        ],
-        modes: [
-            { type: 'ship', icon: '🚢', name: 'Đường biển (qua kênh Suez)', cost: 1838.9, time: 24.5, co2: 919425.0, distance: 12259, color: 'blue' }
-        ] 
-    },
-    { 
-        from: 'jebel_ali', 
-        to: 'istanbul', 
-        path: [                      
-            [25.0145, 55.0592],     
-            [20.0000, 60.0000],      
-            [12.8000, 45.0000],      
-            [27.5000, 34.0000],      
-            [29.9000, 32.5000],      
-            [35.0000, 25.0000],      
-            [41.2753, 28.7519]       
-        ],
-        modes: [
-            { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 1195.4, time: 15.9, co2: 597675.0, distance: 7969, color: 'blue' }
-        ] 
-    },
+            from: 'tan_son_nhat', 
+            to: 'singapore', 
+            path: [                  
+                [10.8185, 106.6525],     
+                [6.0000, 105.0000],      
+                [1.3644, 103.9915]       
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 2448, time: 0.073, co2: 3264000, distance: 1088, color: 'purple' }
+            ] 
+        },
         { 
-        from: 'pleiku', 
-        to: 'dong_dang', 
-        path: [                      
-            [13.9833, 108.0000],     
-            [16.0471, 108.2068],     
-            [21.0285, 105.8542],     
-            [21.9485, 106.6715]      
-        ],
-        modes: [
-            { type: 'truck', icon: '🚚', name: 'Đường bộ (Container)', cost: 135.0, time: 2.1, co2: 121500.0, distance: 1350, color: 'blue' }
-        ] 
-    },
-    { 
-        from: 'dong_dang', 
-        to: 'baku', 
-        path: [                      
-            [21.9485, 106.6715],     
-            [35.0000, 100.0000],     
-            [45.0000, 70.0000],      
-            [40.3777, 49.8920]       
-        ],
-        modes: [
-            { type: 'rail', icon: '🚆', name: 'Đường sắt liên vận Á – Âu', cost: 170.24, time: 7.3, co2: 97890.0, distance: 4256, color: 'gray' }
-        ] 
-    },
-    { 
-        from: 'baku', 
-        to: 'istanbul', 
-        path: [                      
-            [40.3777, 49.8920],   
-            [41.6168, 41.6367],     
-            [41.2753, 28.7519]      
-        ],
-        modes: [
-            { type: 'ship', icon: '🚢', name: 'Vượt Biển Caspi & Tiếp vận', cost: 15.24, time: 2.5, co2: 7620.0, distance: 508, color: 'blue' }
-        ] 
-    }
+            from: 'pleiku', 
+            to: 'cai_mep', 
+            path: [                  
+                [13.9833, 108.0000],     
+                [12.6666, 108.0333],     
+                [12.0000, 107.6800],     
+                [11.2000, 107.1000],     
+                [10.5500, 107.0333]      
+            ],
+            modes: [
+                { type: 'truck', icon: '🚚', name: 'Đường bộ (QL51)', cost: 1172.0, time: 1.0, co2: 1054.8, distance: 586, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'tan_son_nhat', 
+            to: 'hong_kong', 
+            path: [                  
+                [10.8185, 106.6525],    
+                [16.0000, 110.0000],    
+                [22.3193, 114.1694]     
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13392.0, time: 0.6, co2: 17856.0, distance: 1488, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'doha', 
+            to: 'istanbul', 
+            path: [                  
+                [25.2731, 51.6081],     
+                [30.0000, 45.0000],     
+                [36.0000, 36.0000],     
+                [41.2753, 28.7519]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 24804.0, time: 0.7, co2: 33072.0, distance: 2756, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'dubai', 
+            to: 'istanbul', 
+            path: [                  
+                [25.2532, 55.3657],     
+                [30.0000, 48.0000],     
+                [35.0000, 38.0000],     
+                [41.2753, 28.7519]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 27270.0, time: 0.7, co2: 36360.0, distance: 3030, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'hong_kong', 
+            to: 'istanbul', 
+            path: [                  
+                [22.3193, 114.1694],    
+                [30.0000, 95.0000],     
+                [38.0000, 70.0000],     
+                [40.0000, 50.0000],     
+                [41.2753, 28.7519]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 72189.0, time: 1.0, co2: 96252.0, distance: 8021, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'singapore', 
+            to: 'doha', 
+            path: [                  
+                [1.3644, 103.9915],     
+                [6.0000, 90.0000],      
+                [15.0000, 75.0000],     
+                [20.0000, 60.0000],     
+                [25.2731, 51.6081]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 55854.0, time: 0.9, co2: 74472.0, distance: 6206, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'cai_mep', 
+            to: 'singapore', 
+            path: [                  
+                [10.5500, 107.0333],     
+                [7.0000, 105.0000],      
+                [1.3644, 103.9915]       
+            ],
+            modes: [
+                { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 835.8, time: 3.8, co2: 417.9, distance: 1393, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'cai_mep', 
+            to: 'jebel_ali', 
+            path: [                  
+                [10.5500, 107.0333],     
+                [6.0000, 103.0000],      
+                [5.0000, 80.0000],       
+                [15.0000, 65.0000],      
+                [25.0145, 55.0592]       
+            ],
+            modes: [
+                { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 5234.4, time: 19.4, co2: 2617.2, distance: 8724, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'singapore', 
+            to: 'istanbul', 
+            path: [                  
+                [1.3644, 103.9915],     
+                [5.0000, 90.0000],      
+                [12.0000, 50.0000],      
+                [12.8000, 45.0000],      
+                [27.5000, 34.0000],      
+                [29.9000, 32.5000],      
+                [35.0000, 25.0000],      
+                [41.2753, 28.7519]       
+            ],
+            modes: [
+                { type: 'ship', icon: '🚢', name: 'Đường biển (qua kênh Suez)', cost: 7355.4, time: 26.0, co2: 3677.7, distance: 12259, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'jebel_ali', 
+            to: 'istanbul', 
+            path: [                  
+                [25.0145, 55.0592],     
+                [20.0000, 60.0000],      
+                [12.8000, 45.0000],      
+                [27.5000, 34.0000],      
+                [29.9000, 32.5000],      
+                [35.0000, 25.0000],      
+                [41.2753, 28.7519]       
+            ],
+            modes: [
+                { type: 'ship', icon: '🚢', name: 'Đường biển', cost: 4781.4, time: 17.9, co2: 2390.7, distance: 7969, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'pleiku', 
+            to: 'dong_dang', 
+            path: [                  
+                [13.9833, 108.0000],     
+                [16.0471, 108.2068],     
+                [21.0285, 105.8542],     
+                [21.9485, 106.6715]      
+            ],
+            modes: [
+                { type: 'truck', icon: '🚚', name: 'Đường bộ (Container)', cost: 2660.0, time: 2.1, co2: 2394.0, distance: 1330, color: 'blue' }
+            ] 
+        },
+        { 
+            from: 'dong_dang', 
+            to: 'baku', 
+            path: [                  
+                [21.9485, 106.6715],     
+                [35.0000, 100.0000],     
+                [45.0000, 70.0000],      
+                [40.3777, 49.8920]       
+            ],
+            modes: [
+                { type: 'rail', icon: '🚆', name: 'Đường sắt liên vận Á – Âu', cost: 170.24, time: 7.3, co2: 97890.0, distance: 4256, color: 'gray' }
+            ] 
+        },
+        { 
+            from: 'baku', 
+            to: 'istanbul', 
+            path: [                  
+                [40.3777, 49.8920],   
+                [41.6168, 41.6367],     
+                [41.2753, 28.7519]      
+            ],
+            modes: [
+                { type: 'ship', icon: '🚢', name: 'Vượt Biển Caspi & Tiếp vận', cost: 15.24, time: 2.5, co2: 7620.0, distance: 508, color: 'blue' }
+            ] 
+        }
     ];
 
     const introScreen = document.getElementById('intro-screen');
@@ -344,7 +345,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         drawAvailableNextHubs();
     }
-function drawAvailableNextHubs() {
+
+    function drawAvailableNextHubs() {
         Object.keys(hubs).forEach(hubId => {
             if (hubId === currentHubId) return;
             const nextHub = hubs[hubId];
