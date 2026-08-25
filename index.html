@@ -74,7 +74,7 @@
         <div id="map"></div>
         <div id="stats-panel" class="dashboard-panel">
             <div class="stat-item"><div class="title">Thời gian</div><div class="value" id="stat-time">0</div><div class="unit">ngày</div></div>
-            <div class="stat-item"><div class="title">Chi phí</div><div class="value" id="stat-cost">0</div><div class="unit">VND</div></div>
+            <div class="stat-item"><div class="title">Chi phí</div><div class="value" id="stat-cost">0</div><div class="unit">USD</div></div>
             <div class="stat-item"><div class="title">Khoảng cách</div><div class="value" id="stat-reliability">0</div><div class="unit">km</div></div>
             <div class="stat-item"><div class="title">Phát thải CO2</div><div class="value" id="stat-co2">0</div><div class="unit">kgCO₂</div></div>
         </div>
@@ -84,7 +84,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let map, currentLocationMarker, currentHubId = 'pleiku';
-        let totalTime = 0, totalCost = 0, totalCO2 = 0;
+        let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
         
         const hubs = { 
             'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
