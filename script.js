@@ -6,10 +6,33 @@ const hubs = {
     'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
     'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } 
 };
+const hubs = { 
+    'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
+    'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
+    'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
+    'tan_son_nhat': { name: 'Sân bay Tân Sơn Nhất', lat: 10.8185, lng: 106.6525 }
+};
+
 const routes = [
     { 
         from: 'pleiku', 
         to: 'icd_song_than', 
+        path: [                     
+            [13.9833, 108.0000],     
+            [12.6666, 108.0333],     
+            [12.0000, 107.6800],     
+            [11.5333, 106.9000],     
+            [11.4167, 106.6500],     
+            [10.9800, 106.6800],     
+            [10.9167, 106.7500]      
+        ],
+        modes: [
+            { type: 'rail', icon: '🚆', name: 'Đường sắt', cost: 100, time: 1.6667, co2: 57500 , distance: 550, color: 'green' }
+        ] 
+    },
+    { 
+        from: 'pleiku', 
+        to: 'tan_son_nhat', 
         path: [                      
             [13.9833, 108.0000],     
             [12.6666, 108.0333],     
@@ -17,10 +40,10 @@ const routes = [
             [11.5333, 106.9000],     
             [11.4167, 106.6500],     
             [10.9800, 106.6800],     
-            [10.9167, 106.7500]
+            [10.8185, 106.6525]      
         ],
         modes: [
-            { type: 'rail', icon: '🚆', name: 'Đường sắt', cost: 100, time: 1.667, distance: 500; co2: 57500, color: 'blue' }
+            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 267.5, time: 0.764, co2: 240750, distance: 535, color: 'blue' }
         ] 
     }
 ];
@@ -74,7 +97,7 @@ L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
     totalCO2 += selectedMode.co2;
     totalDistance += selectedMode.distance;
     
-    document.getElementById('stat-cost').innerText = totalCost.toLocaleString('vi-VN');
+    document.getElementById('stat-cost').innerText = totalCost.toLocaleString('en-US');
     document.getElementById('stat-time').innerText = totalTime.toFixed(1);
     document.getElementById('stat-co2').innerText = totalCO2.toFixed(0);
     
