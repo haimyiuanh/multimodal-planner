@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
+    
+    // Reset toàn bộ thông số hành trình về ban đầu (Pleiku, stats = 0) theo đúng yêu cầu khi F5
     let currentHubId = 'pleiku';
     let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
@@ -7,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
         'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
         'icd_song_than': { name: 'ICD Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
         'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
-        'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 }
+        'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
+        'cang_quy_nhon': { name: 'Cảng Quy Nhơn', lat: 13.7700, lng: 109.2300 }
     };
 
     const routes = [
@@ -57,30 +60,44 @@ document.addEventListener("DOMContentLoaded", function() {
             modes: [
                 { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 280, time: 0.8, co2: 252000, distance: 560, color: 'blue' }
             ] 
+        },
+        { 
+            from: 'pleiku', 
+            to: 'cang_quy_nhon', 
+            path: [                      
+                [13.9833, 108.0000],     
+                [13.9667, 108.6500],     
+                [13.7700, 109.2300]      
+            ],
+            modes: [
+                { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 87.5, time: 0.25, co2: 78750, distance: 175, color: 'blue' }
+            ] 
         }
     ];
 
-    // Khôi phục trạng thái giao diện khi reload
+    const introScreen = document.getElementById('intro-screen');
+    const mapScreen = document.getElementById('map-screen');
     if (localStorage.getItem('appStarted') === 'true') {
-        document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('map-screen').style.display = 'block';
+        if (introScreen) introScreen.style.display = 'none';
+        if (mapScreen) mapScreen.style.display = 'block';
         
         updateStatsUI();
         initMap();
         setTimeout(function() { if(map) map.invalidateSize(); }, 100);
         startTimer();
+    } else {
+        if (introScreen) introScreen.style.display = 'block';
+        if (mapScreen) mapScreen.style.display = 'none';
     }
 
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
         startBtn.addEventListener('click', function() {
             localStorage.setItem('appStarted', 'true');
-            if (!localStorage.getItem('timerEndTime')) {
-                localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
-            }
+            localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
 
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('map-screen').style.display = 'block';
+            if (introScreen) introScreen.style.display = 'none';
+            if (mapScreen) mapScreen.style.display = 'block';
             
             initMap();
             setTimeout(function() { if(map) map.invalidateSize(); }, 100);
@@ -163,14 +180,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (window.timerInterval) clearInterval(window.timerInterval);
 
+        let endTime = localStorage.getItem('timerEndTime');
+        let now = Date.now();
+        if (!endTime || parseInt(endTime) <= now) {
+            endTime = now + 30 * 60 * 1000;
+            localStorage.setItem('timerEndTime', endTime);
+        }
+
         window.timerInterval = setInterval(function () {
-            let endTime = localStorage.getItem('timerEndTime');
-            if (!endTime) {
-                endTime = Date.now() + 30 * 60 * 1000;
-                localStorage.setItem('timerEndTime', endTime);
-            }
-            
-            let timeLeft = Math.floor((parseInt(endTime) - Date.now()) / 1000);
+            let currentEndTime = parseInt(localStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
+            let timeLeft = Math.floor((currentEndTime - Date.now()) / 1000);
             if (timeLeft < 0) timeLeft = 0;
 
             let m = parseInt(timeLeft / 60, 10), s = parseInt(timeLeft % 60, 10);
