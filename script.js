@@ -41,8 +41,24 @@ document.addEventListener("DOMContentLoaded", function() {
             modes: [
                 { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 267.5, time: 0.764, co2: 240750, distance: 535, color: 'blue' }
             ] 
-        }
+        },
+        {
+        from: 'pleiku', 
+        to: 'cat_lai', 
+        path: [                      
+            [13.9833, 108.0000],    
+            [12.6666, 108.0333],     
+            [12.0000, 107.6800],     
+            [11.2000, 107.1000],     
+            [10.8500, 106.7800],     
+            [10.7600, 106.7700]      
+        ],
+        modes: [
+            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 280, time: 0.8, co2: 252000, distance: 560, color: 'blue' }
+        ] 
+    }    
     ];
+    
 
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
