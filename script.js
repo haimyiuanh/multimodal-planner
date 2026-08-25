@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'cai_mep': { name: 'Cái Mép – Thị Vải', lat: 10.5500, lng: 107.0333 },
         'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
         'long_thanh': { name: 'Sân bay Long Thành', lat: 10.7800, lng: 107.1500 },
-        'ha_khau': { name: 'Biên giới Việt–Trung (Hà Khẩu)', lat: 22.5000, lng: 103.9600 },
+        'dong_dang': { name: 'Ga liên vận Đồng Đăng (Lạng Sơn)', lat: 21.9438, lng: 106.6972 },
         'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 },
         'dubai': { name: 'Sân bay Dubai', lat: 25.2532, lng: 55.3657 },
         'singapore': { name: 'Sân bay Changi (SIN)', lat: 1.3644, lng: 103.9915 },
@@ -65,12 +65,12 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         { 
             from: 'pleiku', 
-            to: 'ha_khau', 
+            to: 'dong_dang', 
             path: [                  
                 [13.9833, 108.0000],     
                 [16.0471, 108.2068],     
                 [21.0285, 105.8542],     
-                [22.5000, 103.9600]      
+                [21.9438, 106.6972]      
             ],
             modes: [
                 { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 665.0, time: 2.1, co2: 598.5, distance: 1330, color: 'blue' }
