@@ -68,6 +68,7 @@ L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
     totalCost += selectedMode.cost; 
     totalTime += selectedMode.time; 
     totalCO2 += selectedMode.co2;
+    totalDistance += selectedMode.distance;
     
     document.getElementById('stat-cost').innerText = totalCost.toLocaleString('vi-VN');
     document.getElementById('stat-time').innerText = totalTime.toFixed(1);
