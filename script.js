@@ -103,6 +103,30 @@ document.addEventListener("DOMContentLoaded", function() {
             ] 
         },
         { 
+            from: 'long_thanh', 
+            to: 'singapore', 
+            path: [                  
+                [10.7800, 107.1500],    
+                [6.0000, 105.0000],     
+                [1.3644, 103.9915]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 2475.0, time: 0.6, co2: 3300.0, distance: 1100, color: 'purple' }
+            ] 
+        },
+        { 
+            from: 'long_thanh', 
+            to: 'dubai', 
+            path: [                  
+                [10.7800, 107.1500],    
+                [18.0000, 80.0000],     
+                [25.2532, 55.3657]      
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 12654.0, time: 0.9, co2: 16872.0, distance: 5624, color: 'purple' }
+            ] 
+        },
+        { 
             from: 'doha', 
             to: 'istanbul', 
             path: [                  
