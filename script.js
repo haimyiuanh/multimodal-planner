@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    let map, currentLocationMarker, currentHubId = 'pleiku';
-    let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
+    let map, currentLocationMarker;
+    let currentHubId = localStorage.getItem('currentHubId') || 'pleiku';
+    let totalTime = parseFloat(localStorage.getItem('totalTime')) || 0;
+    let totalCost = parseFloat(localStorage.getItem('totalCost')) || 0;
+    let totalDistance = parseFloat(localStorage.getItem('totalDistance')) || 0;
+    let totalCO2 = parseFloat(localStorage.getItem('totalCO2')) || 0;
 
     const hubs = { 
         'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
@@ -42,39 +46,46 @@ document.addEventListener("DOMContentLoaded", function() {
                 { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 267.5, time: 0.764, co2: 240750, distance: 535, color: 'blue' }
             ] 
         },
-        {
-        from: 'pleiku', 
-        to: 'cat_lai', 
-        path: [                      
-            [13.9833, 108.0000],    
-            [12.6666, 108.0333],     
-            [12.0000, 107.6800],     
-            [11.2000, 107.1000],     
-            [10.8500, 106.7800],     
-            [10.7600, 106.7700]      
-        ],
-        modes: [
-            { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 280, time: 0.8, co2: 252000, distance: 560, color: 'blue' }
-        ] 
-    }    
+        { 
+            from: 'pleiku', 
+            to: 'cat_lai', 
+            path: [                      
+                [13.9833, 108.0000],     
+                [12.6666, 108.0333],     
+                [12.0000, 107.6800],     
+                [11.2000, 107.1000],     
+                [10.8500, 106.7800],     
+                [10.7600, 106.7700]      
+            ],
+            modes: [
+                { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 280, time: 0.8, co2: 252000, distance: 560, color: 'blue' }
+            ] 
+        }
     ];
-    
 
-    const startBtn = document.getElementById('start-btn');
-    if (startBtn) {
-        startBtn.addEventListener('click', function() {
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('map-screen').style.display = 'block';
-            
-            initMap();
-            
-            setTimeout(function() {
-                if(map) map.invalidateSize();
-            }, 100);
-
-            startTimer(30 * 60, document.getElementById('timer-panel'));
-        });
+        if (localStorage.getItem('appStarted') === 'true') {
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('map-screen').style.display = 'block';
+        
+        updateStatsUI();
+        initMap();
+        setTimeout(function() { if(map) map.invalidateSize(); }, 100);
+        startTimer();
     }
+
+    document.getElementById('start-btn').addEventListener('click', function() {
+        localStorage.setItem('appStarted', 'true');
+        if (!localStorage.getItem('timerEndTime')) {
+            localStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
+        }
+
+        document.getElementById('intro-screen').style.display = 'none';
+        document.getElementById('map-screen').style.display = 'block';
+        
+        initMap();
+        setTimeout(function() { if(map) map.invalidateSize(); }, 100);
+        startTimer();
+    });
 
     function initMap() {
         if (map) return; 
@@ -100,10 +111,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})
             }).addTo(map);
 
-            // Hiển thị tên điểm đến ngay bên dưới marker điểm tiếp theo
             marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
 
-            // Popup bấm chọn phương thức vận tải
             let popupContent = `<div class="mode-selection-popup">`;
             route.modes.forEach((mode, index) => { 
                 popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})" title="${mode.name}">${mode.icon}</div>`; 
@@ -132,23 +141,36 @@ document.addEventListener("DOMContentLoaded", function() {
         totalTime += selectedMode.time; 
         totalCO2 += selectedMode.co2;
         totalDistance += selectedMode.distance;
+
+        localStorage.setItem('currentHubId', nextHubId);
+        localStorage.setItem('totalTime', totalTime);
+        localStorage.setItem('totalCost', totalCost);
+        localStorage.setItem('totalDistance', totalDistance);
+        localStorage.setItem('totalCO2', totalCO2);
         
-        document.getElementById('stat-cost').innerText = totalCost.toLocaleString('en-US');
-        document.getElementById('stat-time').innerText = totalTime.toFixed(1);
-        document.getElementById('stat-co2').innerText = totalCO2.toFixed(0);
-        document.getElementById('stat-distance').innerText = totalDistance.toLocaleString('en-US');
+        updateStatsUI();
         
         currentHubId = nextHubId; 
         map.closePopup(); 
         drawAvailableNextHubs();
     };
 
-    function startTimer(duration, display) {
-        let timer = duration;
+    function updateStatsUI() {
+        document.getElementById('stat-cost').innerText = totalCost.toLocaleString('en-US');
+        document.getElementById('stat-time').innerText = totalTime.toFixed(1);
+        document.getElementById('stat-co2').innerText = totalCO2.toLocaleString('en-US');
+        document.getElementById('stat-distance').innerText = totalDistance.toLocaleString('en-US');
+    }
+
+    function startTimer() {
+        const display = document.getElementById('timer-panel');
         setInterval(function () {
-            let m = parseInt(timer / 60, 10), s = parseInt(timer % 60, 10);
+            const endTime = parseInt(localStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
+            let timeLeft = Math.floor((endTime - Date.now()) / 1000);
+            if (timeLeft < 0) timeLeft = 0;
+
+            let m = parseInt(timeLeft / 60, 10), s = parseInt(timeLeft % 60, 10);
             display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-            if (--timer < 0) timer = 0;
         }, 1000);
     }
 });
