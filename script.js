@@ -1,11 +1,6 @@
 let map, currentLocationMarker, currentHubId = 'pleiku';
-let totalTime = 0, totalCost = 0, totalCO2 = 0, totalDistance = 0;
+let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
-const hubs = { 
-    'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
-    'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
-    'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 } 
-};
 const hubs = { 
     'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
     'icd_song_than': { name: 'ICD Tân Cảng Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
@@ -27,7 +22,7 @@ const routes = [
             [10.9167, 106.7500]      
         ],
         modes: [
-            { type: 'rail', icon: '🚆', name: 'Đường sắt', cost: 100, time: 1.6667, co2: 57500 , distance: 550, color: 'green' }
+            { type: 'rail', icon: '🚆', name: 'Đường sắt', cost: 100, time: 1.6667, co2: 57500, distance: 550, color: 'green' }
         ] 
     },
     { 
@@ -51,16 +46,22 @@ const routes = [
 document.getElementById('start-btn').addEventListener('click', function() {
     document.getElementById('intro-screen').style.display = 'none';
     document.getElementById('map-screen').style.display = 'block';
+    
     initMap();
+    
     setTimeout(function() {
-        map.invalidateSize();
+        if(map) map.invalidateSize();
     }, 100);
+
     startTimer(30 * 60, document.getElementById('timer-panel'));
 });
+
 function initMap() {
-    map = L.map('map', { center: [20.0, 70.0], zoom: 3, minZoom: 2, maxZoom: 10 });
+    if (map) return; 
+    map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
+
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+        attribution: 'Tiles &copy; Esri',
         maxZoom: 16
     }).addTo(map);
 
@@ -85,11 +86,13 @@ window.selectMode = function(nextHubId, modeIndex) {
     const route = routes.find(r => r.from === currentHubId && r.to === nextHubId);
     const selectedMode = route.modes[modeIndex];
     const nextHub = hubs[nextHubId];
-const routeCoords = route.path ? route.path : [
-    [hubs[currentHubId].lat, hubs[currentHubId].lng], 
-    [nextHub.lat, nextHub.lng]
-];
-L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
+    
+    const routeCoords = route.path ? route.path : [
+        [hubs[currentHubId].lat, hubs[currentHubId].lng], 
+        [nextHub.lat, nextHub.lng]
+    ];
+    
+    L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
     currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
     
     totalCost += selectedMode.cost; 
@@ -100,6 +103,7 @@ L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
     document.getElementById('stat-cost').innerText = totalCost.toLocaleString('en-US');
     document.getElementById('stat-time').innerText = totalTime.toFixed(1);
     document.getElementById('stat-co2').innerText = totalCO2.toFixed(0);
+    document.getElementById('stat-distance').innerText = totalDistance.toLocaleString('en-US');
     
     currentHubId = nextHubId; 
     map.closePopup(); 
