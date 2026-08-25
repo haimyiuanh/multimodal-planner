@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
-    let currentHubId = localStorage.getItem('currentHubId') || 'pleiku';
-    let totalTime = parseFloat(localStorage.getItem('totalTime')) || 0;
-    let totalCost = parseFloat(localStorage.getItem('totalCost')) || 0;
-    let totalDistance = parseFloat(localStorage.getItem('totalDistance')) || 0;
-    let totalCO2 = parseFloat(localStorage.getItem('totalCO2')) || 0;
+    let currentHubId = 'pleiku';
+    let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
     const hubs = { 
         'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
@@ -89,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function initMap() {
         if (map) return; 
-        map = L.map('map', { center: [11.5, 107.0], zoom: 8, minZoom: 2, maxZoom: 15 });
+        map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri',
@@ -141,12 +138,6 @@ document.addEventListener("DOMContentLoaded", function() {
         totalTime += selectedMode.time; 
         totalCO2 += selectedMode.co2;
         totalDistance += selectedMode.distance;
-
-        localStorage.setItem('currentHubId', nextHubId);
-        localStorage.setItem('totalTime', totalTime);
-        localStorage.setItem('totalCost', totalCost);
-        localStorage.setItem('totalDistance', totalDistance);
-        localStorage.setItem('totalCO2', totalCO2);
         
         updateStatsUI();
         
