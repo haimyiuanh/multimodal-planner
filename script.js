@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
         'cang_quy_nhon': { name: 'Cảng Quy Nhơn', lat: 13.7700, lng: 109.2300 },
         'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 } 
+        'dubai': { name: 'Sân bay Dubai', lat: 25.2532, lng: 55.3657 },
     };
 
     const routes = [
@@ -86,7 +87,20 @@ document.addEventListener("DOMContentLoaded", function() {
             modes: [
                 { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13502.25, time: 0.4, co2: 18003000, distance: 6001, color: 'purple' }
             ] 
-        }
+        },
+        { 
+        from: 'tan_son_nhat', 
+        to: 'dubai', 
+        path: [                      
+            [10.8185, 106.6525],     
+            [18.0000, 85.0000],      
+            [23.0000, 70.0000],      
+            [25.2532, 55.3657]       
+        ],
+        modes: [
+            { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 12654, time: 0.375, co2: 16872000, distance: 5624, color: 'purple' }
+        ] 
+    }
     ];
 
     const introScreen = document.getElementById('intro-screen');
