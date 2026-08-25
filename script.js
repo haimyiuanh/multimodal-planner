@@ -135,23 +135,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
         drawAvailableNextHubs();
     }
-
-    function drawAvailableNextHubs() {
-        const availableRoutes = routes.filter(r => r.from === currentHubId);
-        availableRoutes.forEach(route => {
-            const nextHub = hubs[route.to];
+function drawAvailableNextHubs() {
+        Object.keys(hubs).forEach(hubId => {
+            if (hubId === currentHubId) return;
+            const nextHub = hubs[hubId];
             const marker = L.marker([nextHub.lat, nextHub.lng], {
                 icon: L.divIcon({className: 'custom-hub-icon', iconSize: [14, 14]})
             }).addTo(map);
 
             marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
 
-            let popupContent = `<div class="mode-selection-popup">`;
-            route.modes.forEach((mode, index) => { 
-                popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})" title="${mode.name} (${mode.distance} km)">${mode.icon}</div>`; 
-            });
-            popupContent += `</div>`;
-            marker.bindPopup(popupContent);
+            const route = routes.find(r => r.from === currentHubId && r.to === hubId);
+            if (route) {
+                let popupContent = `<div class="mode-selection-popup">`;
+                route.modes.forEach((mode, index) => { 
+                    popupContent += `<div class="mode-btn" onclick="selectMode('${hubId}', ${index})" title="${mode.name} (${mode.distance} km)">${mode.icon}</div>`; 
+                });
+                popupContent += `</div>`;
+                marker.bindPopup(popupContent);
+            }
         });
     }
 
