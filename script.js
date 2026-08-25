@@ -7,15 +7,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const hubs = { 
         'pleiku': { name: 'TP. Pleiku', lat: 13.9833, lng: 108.0000 }, 
         'cai_mep': { name: 'Cái Mép – Thị Vải', lat: 10.5500, lng: 107.0333 },
-        'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
+        'tan_son_nhat': { name: 'Sân bay Tân Sơn Nhất', lat: 10.8185, lng: 106.6525 },
         'long_thanh': { name: 'Sân bay Long Thành', lat: 10.7800, lng: 107.1500 },
-        'dong_dang': { name: 'Ga liên vận Đồng Đăng (Lạng Sơn)', lat: 21.9438, lng: 106.6972 },
+        'dong_dang': { name: 'Ga liên vận Đồng Đăng', lat: 21.9438, lng: 106.6972 },
         'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 },
         'dubai': { name: 'Sân bay Dubai', lat: 25.2532, lng: 55.3657 },
-        'singapore': { name: 'Sân bay Changi (SIN)', lat: 1.3644, lng: 103.9915 },
-        'hong_kong': { name: 'Sân bay Hong Kong (HKG)', lat: 22.3193, lng: 114.1694 }, 
-        'istanbul': { name: 'Sân bay/Ga Istanbul (IST)', lat: 41.2753, lng: 28.7519 },
-        'jebel_ali': { name: 'Cảng Jebel Ali (UAE)', lat: 25.0145, lng: 55.0592 }
+        'singapore': { name: 'Sân bay Changi', lat: 1.3644, lng: 103.9915 },
+        'hong_kong': { name: 'Sân bay Hong Kong', lat: 22.3193, lng: 114.1694 }, 
+        'istanbul': { name: 'Sân bay/Ga Istanbul', lat: 41.2753, lng: 28.7519 },
+        'jebel_ali': { name: 'Cảng Jebel Ali', lat: 25.0145, lng: 55.0592 }
     };
 
     const routes = [
@@ -40,7 +40,9 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'pleiku', 
             to: 'dong_dang', 
-            path: [[13.9833, 108.0000], [16.0471, 108.2068], [21.0285, 105.8542], [21.9438, 106.6972]],
+            path: [
+                [13.9833, 108.0000],[14.3500, 108.0000],[16.0471, 108.2068],[16.4637, 107.5909],[17.4686, 106.6242],[18.6734, 105.6813],[19.8067, 105.7851],[21.0285, 105.8542],[21.2731, 106.1946], [21.9438, 106.6972]  
+            ],
             modes: [{ type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 665.0, time: 2.1, co2: 598.5, distance: 1330, color: 'blue' }] 
         },
         {
