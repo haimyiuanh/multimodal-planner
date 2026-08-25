@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
+    
     let currentHubId = 'pleiku';
     let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
@@ -8,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
         'icd_song_than': { name: 'ICD Sóng Thần', lat: 10.9167, lng: 106.7500 }, 
         'cat_lai': { name: 'Cảng Cát Lái', lat: 10.7600, lng: 106.7700 },
         'tan_son_nhat': { name: 'Sân bay TSN', lat: 10.8185, lng: 106.6525 },
-        'cang_quy_nhon': { name: 'Cảng Quy Nhơn', lat: 13.7700, lng: 109.2300 }
+        'cang_quy_nhon': { name: 'Cảng Quy Nhơn', lat: 13.7700, lng: 109.2300 },
+        'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 } 
     };
 
     const routes = [
@@ -70,13 +72,26 @@ document.addEventListener("DOMContentLoaded", function() {
             modes: [
                 { type: 'truck', icon: '🚚', name: 'Đường bộ', cost: 87.5, time: 0.25, co2: 78750, distance: 175, color: 'blue' }
             ] 
+        },
+        { 
+            from: 'tan_son_nhat', 
+            to: 'doha', 
+            path: [                      
+                [10.8185, 106.6525],     
+                [16.0000, 98.0000],      
+                [22.0000, 80.0000],      
+                [26.0000, 65.0000],      
+                [25.2731, 51.6081]       
+            ],
+            modes: [
+                { type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13502.25, time: 0.4, co2: 18003000, distance: 6001, color: 'purple' }
+            ] 
         }
     ];
 
     const introScreen = document.getElementById('intro-screen');
     const mapScreen = document.getElementById('map-screen');
 
-    // Kiểm tra nếu đã bấm bắt đầu trong phiên làm việc này, khi F5 sẽ giữ ở trang map
     if (sessionStorage.getItem('appStarted') === 'true') {
         if (introScreen) introScreen.style.display = 'none';
         if (mapScreen) mapScreen.style.display = 'block';
@@ -86,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() { if(map) map.invalidateSize(); }, 100);
         startTimer();
     } else {
-        // Mở link lần đầu sẽ hiện thị màn hình hướng dẫn và nút Bắt đầu
         if (introScreen) introScreen.style.display = 'block';
         if (mapScreen) mapScreen.style.display = 'none';
     }
@@ -108,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function initMap() {
         if (map) return; 
-        map = L.map('map', { center: [15.0, 107.0], zoom: 6, minZoom: 2, maxZoom: 15 });
+        map = L.map('map', { center: [15.0, 107.0], zoom: 5, minZoom: 2, maxZoom: 15 });
 
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri',
@@ -134,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             let popupContent = `<div class="mode-selection-popup">`;
             route.modes.forEach((mode, index) => { 
-                popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})" title="${mode.name}">${mode.icon}</div>`; 
+                popupContent += `<div class="mode-btn" onclick="selectMode('${route.to}', ${index})" title="${mode.name} (${mode.distance} km)">${mode.icon}</div>`; 
             });
             popupContent += `</div>`;
             marker.bindPopup(popupContent);
@@ -151,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function() {
             [nextHub.lat, nextHub.lng]
         ];
         
-        L.polyline(routeCoords, {color: selectedMode.color, weight: 4}).addTo(map);
+        L.polyline(routeCoords, {color: selectedMode.color, weight: 4, dashArray: selectedMode.type === 'air' ? '6, 6' : null}).addTo(map);
         
         currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
         currentLocationMarker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
