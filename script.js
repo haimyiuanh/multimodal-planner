@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+function initApp() {
     let map, currentLocationMarker;
     let markersGroup = null;
     let currentHubId = 'pleiku';
@@ -53,31 +53,32 @@ document.addEventListener("DOMContentLoaded", function() {
     const introScreen = document.getElementById('intro-screen');
     const mapScreen = document.getElementById('map-screen');
 
-    if (sessionStorage.getItem('appStarted') === 'true') {
+    function showMap() {
         if (introScreen) introScreen.style.display = 'none';
         if (mapScreen) mapScreen.style.display = 'block';
         updateStatsUI();
         initMap();
-        setTimeout(() => { if(map) map.invalidateSize(); }, 100);
+        setTimeout(() => { 
+            if (map) map.invalidateSize(); 
+        }, 200);
         startTimer();
+    }
+
+    if (sessionStorage.getItem('appStarted') === 'true') {
+        showMap();
     } else {
-        if (introScreen) introScreen.style.display = 'block';
+        if (introScreen) introScreen.style.display = 'flex';
         if (mapScreen) mapScreen.style.display = 'none';
     }
 
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
-        startBtn.addEventListener('click', function(e) {
-            if (e) e.preventDefault();
+        startBtn.onclick = function(e) {
+            e.preventDefault();
             sessionStorage.setItem('appStarted', 'true');
             sessionStorage.setItem('timerEndTime', Date.now() + 10 * 60 * 1000);
-            if (introScreen) introScreen.style.display = 'none';
-            if (mapScreen) mapScreen.style.display = 'block';
-            updateStatsUI();
-            initMap();
-            setTimeout(() => { if(map) map.invalidateSize(); }, 100);
-            startTimer();
-        });
+            showMap();
+        };
     }
 
     function initMap() {
@@ -245,4 +246,10 @@ document.addEventListener("DOMContentLoaded", function() {
             display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
         }, 1000);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
