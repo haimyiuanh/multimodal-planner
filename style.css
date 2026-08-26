@@ -199,6 +199,7 @@ body, html {
     font-weight: bold;
     margin-top: 15px;
 }
+
 .modal-content button:hover {
     background: #3f4280;
 }
@@ -209,6 +210,7 @@ body, html {
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.8);
     cursor: pointer;
 }
+
 .custom-hub-icon.inactive-hub {
     background-color: #7f8c8d;
     border: 2px solid #ffffff;
