@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (startBtn) {
         startBtn.addEventListener('click', function() {
             sessionStorage.setItem('appStarted', 'true');
-            sessionStorage.setItem('timerEndTime', Date.now() + 30 * 60 * 1000);
+            sessionStorage.setItem('timerEndTime', Date.now() + 10 * 60 * 1000);
 
             if (introScreen) introScreen.style.display = 'none';
             if (mapScreen) mapScreen.style.display = 'block';
@@ -352,12 +352,12 @@ document.addEventListener("DOMContentLoaded", function() {
         let endTime = sessionStorage.getItem('timerEndTime');
         let now = Date.now();
         if (!endTime || parseInt(endTime) <= now) {
-            endTime = now + 30 * 60 * 1000;
+            endTime = now + 10 * 60 * 1000;
             sessionStorage.setItem('timerEndTime', endTime);
         }
 
         window.timerInterval = setInterval(function () {
-            let currentEndTime = parseInt(sessionStorage.getItem('timerEndTime')) || (Date.now() + 30 * 60 * 1000);
+            let currentEndTime = parseInt(sessionStorage.getItem('timerEndTime')) || (Date.now() + 10 * 60 * 1000);
             let timeLeft = Math.floor((currentEndTime - Date.now()) / 1000);
             if (timeLeft < 0) timeLeft = 0;
 
