@@ -202,3 +202,16 @@ body, html {
 .modal-content button:hover {
     background: #3f4280;
 }
+
+.custom-hub-icon.active-hub {
+    background-color: #27ae60;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.8);
+    cursor: pointer;
+}
+.custom-hub-icon.inactive-hub {
+    background-color: #7f8c8d;
+    border: 2px solid #ffffff;
+    opacity: 0.75;
+    cursor: pointer;
+}
