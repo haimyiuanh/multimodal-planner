@@ -1,4 +1,4 @@
-function initApp() {
+document.addEventListener('DOMContentLoaded', function() {
     let map, currentLocationMarker;
     let markersGroup = null;
     let currentHubId = 'pleiku';
@@ -52,6 +52,7 @@ function initApp() {
 
     const introScreen = document.getElementById('intro-screen');
     const mapScreen = document.getElementById('map-screen');
+    const startBtn = document.getElementById('start-btn');
 
     function showMap() {
         if (introScreen) introScreen.style.display = 'none';
@@ -64,24 +65,9 @@ function initApp() {
         startTimer();
     }
 
-    // ĐÃ FIX LỖI 1: Bọc try...catch để không bị sập khi chạy file Local
-    try {
-        if (sessionStorage.getItem('appStarted') === 'true') {
-            showMap();
-        } else {
-            if (introScreen) introScreen.style.display = 'flex';
-            if (mapScreen) mapScreen.style.display = 'none';
-        }
-    } catch (e) {
-        if (introScreen) introScreen.style.display = 'flex';
-        if (mapScreen) mapScreen.style.display = 'none';
-    }
-
-    const startBtn = document.getElementById('start-btn');
     if (startBtn) {
-        startBtn.onclick = function(e) {
+        startBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            // ĐÃ FIX LỖI 2: Chống sập sự kiện click
             try {
                 sessionStorage.setItem('appStarted', 'true');
                 sessionStorage.setItem('timerEndTime', Date.now() + 10 * 60 * 1000);
@@ -89,7 +75,7 @@ function initApp() {
                 window.localSessionTime = Date.now() + 10 * 60 * 1000;
             }
             showMap();
-        };
+        });
     }
 
     function initMap() {
@@ -230,7 +216,6 @@ function initApp() {
 
         if (window.timerInterval) clearInterval(window.timerInterval);
 
-        // ĐÃ FIX LỖI 3: Giúp bộ đếm thời gian chạy trơn tru kể cả khi bị chặn Storage
         let currentEndTime = window.localSessionTime || (Date.now() + 10 * 60 * 1000);
         try {
             let storageTime = sessionStorage.getItem('timerEndTime');
@@ -260,10 +245,4 @@ function initApp() {
             display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
         }, 1000);
     }
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-} else {
-    initApp();
-}
+});
