@@ -5,26 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multimodal Transport Planner</title>
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
     
-    <!-- Custom Style -->
-    <link rel="stylesheet" href="style.css">
+       <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Màn hình giới thiệu -->
-    <div id="intro-screen">
+        <div id="intro-screen">
         <h1>GIỚI THIỆU VỀ HÀNH LANG VẬN CHUYỂN CỤ THỂ</h1>
         <p>Nhiệm vụ của bạn là xây dựng tuyến đường vận chuyển tối ưu cho lô hàng 05 tấn cà phê hạt Robusta xuất khẩu từ TP. Pleiku (Gia Lai) đến Istanbul (Thổ Nhĩ Kỳ).</p>
         <p>Trong quá trình đó bạn phải lựa chọn linh hoạt giữa các phương thức vận tải (Đường bộ, Đường sắt, Đường biển, Hàng không) và các trạm trung chuyển quốc tế để đạt sự cân bằng hoàn hảo giữa Chi phí – Thời gian – Lượng phát thải CO₂.</p>
-        <p class="highlight">Ngay khi nhấn "BẮT ĐẦU", bạn sẽ có đúng 30 phút để hoàn tất toàn bộ phương án phân bổ chặng đường. Nếu muốn đổi tuyến có thể bấm F5 để tải lại trang nhưng thời gian sẽ vẫn tiếp tục đếm ngược.</p>
+        <p class="highlight">Ngay khi nhấn "BẮT ĐẦU", bạn sẽ có đúng 10 phút để hoàn tất toàn bộ phương án phân bổ chặng đường. Nếu muốn đổi tuyến có thể bấm F5 để tải lại trang nhưng thời gian sẽ vẫn tiếp tục đếm ngược.</p>
         <button id="start-btn">BẮT ĐẦU</button>
     </div>
-
-    <!-- Màn hình bản đồ -->
     <div id="map-screen">
         <div id="map"></div>
         
@@ -38,8 +32,7 @@
         <div id="timer-panel" class="dashboard-panel">30:00</div>
     </div>
 
-    <!-- Leaflet JS & Custom Script -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
