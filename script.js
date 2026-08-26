@@ -97,20 +97,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
    function drawAvailableNextHubs() {
-    // Xóa sạch marker cũ trên bản đồ
     markersGroup.clearLayers();
 
     Object.keys(hubs).forEach(hubId => {
         if (hubId === currentHubId) return; 
+
         const nextHub = hubs[hubId];
         const route = routes.find(r => r.from === currentHubId && r.to === hubId);
         const isReachable = !!route; 
-        const iconClass = isReachable ? 'custom-hub-icon active-hub' : 'custom-hub-icon inactive-hub';
-        const marker = L.marker([nextHub.lat, nextHub.lng], {
-            icon: L.divIcon({ className: iconClass, iconSize: [14, 14] })
+        const marker = L.circleMarker([nextHub.lat, nextHub.lng], {
+            radius: isReachable ? 8 : 6,
+            fillColor: isReachable ? '#27ae60' : '#e74c3c', 
+            color: '#ffffff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9
         }).addTo(markersGroup);
-
-         marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
+        marker.bindTooltip(nextHub.name, { 
+            permanent: true, 
+            direction: 'bottom', 
+            className: 'hub-label' 
+        });
 
         if (isReachable) {
                        let popupContent = `<div class="mode-selection-popup">`;
@@ -120,7 +127,12 @@ document.addEventListener("DOMContentLoaded", function() {
             popupContent += `</div>`;
             marker.bindPopup(popupContent);
         } else {
-                       marker.bindPopup(`<div style="padding: 5px; font-size: 12px; text-align: center;">🔒 <b>${nextHub.name}</b><br><span style="color: #666; font-size: 11px;">Cần di chuyển đến trạm trung chuyển thích hợp để kết nối.</span></div>`);
+                       marker.bindPopup(`
+                <div style="padding: 4px; font-size: 12px; text-align: center;">
+                    🔒 <b>${nextHub.name}</b><br>
+                    <span style="color: #666; font-size: 11px;">Trạm quốc tế (Hãy di chuyển đến điểm trung chuyển để mở tuyến)</span>
+                </div>
+            `);
         }
     });
 }
