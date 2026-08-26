@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
-    let markersGroup = null; // LayerGroup quản lý các marker động
+    let markersGroup = null;
     let currentHubId = 'pleiku';
     let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
