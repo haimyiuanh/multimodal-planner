@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'doha': { name: 'Sân bay Doha', lat: 25.2731, lng: 51.6081 },
         'dubai': { name: 'Sân bay Dubai', lat: 25.2532, lng: 55.3657 },
         'singapore': { name: 'Sân bay Changi', lat: 1.3644, lng: 103.9915 },
+        'singapore_port': { name: 'Cảng biển Singapore', lat: 1.2644, lng: 103.8400 },
         'hong_kong': { name: 'Sân bay Hong Kong', lat: 22.3193, lng: 114.1694 }, 
         'istanbul': { name: 'Sân bay/Ga Istanbul', lat: 41.2753, lng: 28.7519 },
         'jebel_ali': { name: 'Cảng Jebel Ali', lat: 25.0145, lng: 55.0592 }
@@ -105,14 +106,14 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         {
             from: 'cai_mep', 
-            to: 'singapore', 
-            path: [[10.5500, 107.0333], [7.0000, 105.0000], [1.3644, 103.9915]],
+            to: 'singapore_port', 
+            path: [[10.5500, 107.0333], [7.0000, 105.0000], [3.0000, 104.5000], [1.2644, 103.8400]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 835.8, time: 3.8, co2: 417.9, distance: 1393, color: 'blue' }] 
         },
         { 
             from: 'cai_mep', 
             to: 'jebel_ali', 
-            path: [[10.5500, 107.0333], [6.0000, 103.0000], [5.0000, 80.0000], [15.0000, 65.0000], [25.0145, 55.0592]],
+            path: [[10.5500, 107.0333], [6.0000, 103.0000], [2.5000, 101.5000], [5.5000, 97.5000], [5.8000, 80.5000], [15.0000, 65.0000], [24.0000, 59.0000], [25.0145, 55.0592]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 1308.6, time: 19.4, co2: 654.3, distance: 8724, color: 'blue' }] 
         },
         { 
@@ -120,6 +121,20 @@ document.addEventListener("DOMContentLoaded", function() {
             to: 'hong_kong', 
             path: [[10.5500, 107.0333], [15.0000, 112.0000], [22.3193, 114.1694]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 223.2, time: 4.0, co2: 111.6, distance: 1488, color: 'blue' }] 
+        },
+        {
+            from: 'singapore_port',
+            to: 'singapore',
+            path: [[1.2644, 103.8400], [1.3644, 103.9915]],
+            modes: [{ type: 'truck', icon: '🚚', name: 'Trung chuyển Sea-Air', cost: 30.0, time: 0.1, co2: 10.0, distance: 20, color: 'blue' }]
+        },
+        { 
+            from: 'singapore_port', 
+            to: 'istanbul', 
+            path: [
+                [1.2644, 103.8400], [2.5000, 101.5000], [5.5000, 97.5000], [5.8000, 80.5000], [12.0000, 52.0000], [12.6000, 43.4000], [20.0000, 38.5000], [27.8000, 34.0000], [29.9300, 32.5600], [31.2600, 32.3000], [34.0000, 27.0000], [36.5000, 25.5000], [40.0500, 26.2000], [40.7000, 27.8000], [41.0082, 28.9784]
+            ],
+            modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển (đi thẳng qua kênh Suez)', cost: 1838.9, time: 26.0, co2: 3677.7, distance: 12259, color: 'blue' }] 
         },
         { 
             from: 'doha', 
@@ -146,15 +161,9 @@ document.addEventListener("DOMContentLoaded", function() {
             modes: [{ type: 'air', icon: '✈️', name: 'Đường hàng không', cost: 13963.5, time: 0.9, co2: 18618.0, distance: 6206, color: 'purple' }] 
         },
         { 
-            from: 'singapore', 
-            to: 'istanbul', 
-            path: [[1.3644, 103.9915], [5.0000, 90.0000], [12.0000, 50.0000], [12.8000, 45.0000], [27.5000, 34.0000], [29.9000, 32.5000], [35.0000, 25.0000], [41.2753, 28.7519]],
-            modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển (đi thẳng qua kênh Suez)', cost: 1838.9, time: 26.0, co2: 3677.7, distance: 12259, color: 'blue' }] 
-        },
-        { 
             from: 'jebel_ali', 
             to: 'istanbul', 
-            path: [[25.0145, 55.0592], [20.0000, 60.0000], [12.8000, 45.0000], [27.5000, 34.0000], [29.9000, 32.5000], [35.0000, 25.0000], [41.2753, 28.7519]],
+            path: [[25.0145, 55.0592], [24.0000, 59.0000], [15.0000, 65.0000], [12.6000, 43.4000], [20.0000, 38.5000], [27.8000, 34.0000], [29.9300, 32.5600], [31.2600, 32.3000], [34.0000, 27.0000], [36.5000, 25.5000], [40.0500, 26.2000], [40.7000, 27.8000], [41.2753, 28.7519]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 1195.4, time: 17.9, co2: 597.7, distance: 7969, color: 'blue' }] 
         },
         { 
@@ -192,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function() {
             to: 'dubai', 
             path: [[1.3644, 103.9915], [25.2532, 55.3657]],
             modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 13153.5, time: 0.89, co2: 17538.0, distance: 5846, color: 'purple' }] 
-        },
+        }
     ];
 
     const introScreen = document.getElementById('intro-screen');
