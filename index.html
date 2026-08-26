@@ -29,10 +29,18 @@
             <div class="stat-item"><div class="title">Phát thải CO2</div><div class="value" id="stat-co2">0</div><div class="unit">kg CO₂</div></div>
         </div>
         
-        <div id="timer-panel" class="dashboard-panel">30:00</div>
+        <div id="timer-panel" class="dashboard-panel">10:00</div>
     </div>
 
      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    
+<div id="timeout-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>⏰ HẾT GIỜ!</h2>
+        <p>Thời gian làm bài của bạn đã kết thúc.</p>
+        <button id="close-modal-btn" onclick="location.reload()">Làm lại</button>
+    </div>
+</div>
 </body>
 </html>
