@@ -3,44 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multimodal Transport Planner</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin=""/>
-    
-       <link rel="stylesheet" href="style.css">
+    <title>Game Logistics</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hub-label { background: #fff; border: 1px solid #333; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+        .mode-selection-popup { display: flex; gap: 8px; }
+        .mode-btn { cursor: pointer; font-size: 20px; padding: 4px; border: 1px solid #ccc; border-radius: 4px; }
+    </style>
 </head>
 <body>
-        <div id="intro-screen">
-        <h1>GIỚI THIỆU VỀ HÀNH LANG VẬN CHUYỂN CỤ THỂ</h1>
-        <p>Nhiệm vụ của bạn là xây dựng tuyến đường vận chuyển tối ưu cho lô hàng 05 tấn cà phê hạt Robusta xuất khẩu từ TP. Pleiku (Gia Lai) đến Istanbul (Thổ Nhĩ Kỳ).</p>
-        <p>Trong quá trình đó bạn phải lựa chọn linh hoạt giữa các phương thức vận tải (Đường bộ, Đường sắt, Đường biển, Hàng không) và các trạm trung chuyển quốc tế để đạt sự cân bằng hoàn hảo giữa Chi phí – Thời gian – Lượng phát thải CO₂.</p>
-        <p class="highlight">Ngay khi nhấn "BẮT ĐẦU", bạn sẽ có đúng 10 phút để hoàn tất toàn bộ phương án phân bổ chặng đường. Nếu muốn đổi tuyến có thể bấm F5 để tải lại trang nhưng thời gian sẽ vẫn tiếp tục đếm ngược.</p>
-        <button id="start-btn" onclick="startGame()">BẮT ĐẦU</button>
+    <div id="intro-screen" style="text-align: center; padding: 50px;">
+        <h1>TRÒ CHƠI LOGISTICS</h1>
+        <button id="start-btn" onclick="startGame()" style="padding: 15px 30px; font-size: 18px; cursor: pointer;">BẮT ĐẦU</button>
     </div>
-    <div id="map-screen">
-        <div id="map"></div>
-        
-        <div id="stats-panel" class="dashboard-panel">
-            <div class="stat-item"><div class="title">Thời gian</div><div class="value" id="stat-time">0</div><div class="unit">ngày</div></div>
-            <div class="stat-item"><div class="title">Chi phí</div><div class="value" id="stat-cost">0</div><div class="unit">USD</div></div>
-            <div class="stat-item"><div class="title">Khoảng cách</div><div class="value" id="stat-distance">0</div><div class="unit">km</div></div>
-            <div class="stat-item"><div class="title">Phát thải CO2</div><div class="value" id="stat-co2">0</div><div class="unit">kg CO₂</div></div>
+    <div id="map-screen" style="display: none;">
+        <div style="padding: 10px; background: #f4f4f4; display: flex; gap: 20px;">
+            <div>Chi phí: $<span id="stat-cost">0</span></div>
+            <div>Thời gian: <span id="stat-time">0</span> ngày</div>
+            <div>CO2: <span id="stat-co2">0</span> kg</div>
+            <div>Quãng đường: <span id="stat-distance">0</span> km</div>
+            <div>Thời gian còn lại: <span id="timer-panel">10:00</span></div>
         </div>
         
-        <div id="timer-panel" class="dashboard-panel">10:00</div>
+        <div id="map" style="height: 600px; width: 100%;"></div>
     </div>
 
-     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
-    
-<div id="timeout-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2>⏰ HẾT GIỜ!</h2>
-        <p>Thời gian làm bài của bạn đã kết thúc.</p>
-        <button id="close-modal-btn" onclick="location.reload()">Làm lại</button>
-    </div>
-</div>
 </body>
 </html>
