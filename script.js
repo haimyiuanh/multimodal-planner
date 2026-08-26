@@ -107,7 +107,15 @@ document.addEventListener("DOMContentLoaded", function() {
         {
             from: 'cai_mep', 
             to: 'singapore_port', 
-            path: [[10.5500, 107.0333], [7.0000, 105.0000], [3.0000, 104.5000], [1.2644, 103.8400]],
+            path: [
+                [10.5500, 107.0333], 
+                [7.0000, 105.0000], 
+                [3.0000, 104.8000], 
+                [1.6000, 104.6000], 
+                [1.3000, 104.3500], 
+                [1.2200, 104.0500], 
+                [1.2644, 103.8400]
+            ],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 835.8, time: 3.8, co2: 417.9, distance: 1393, color: 'blue' }] 
         },
         { 
