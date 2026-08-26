@@ -96,33 +96,34 @@ document.addEventListener("DOMContentLoaded", function() {
         drawAvailableNextHubs();
     }
 
-    function drawAvailableNextHubs() {
-        // Xóa sạch các marker cũ để tránh đè lớp gây trùng lặp
-        markersGroup.clearLayers();
+   function drawAvailableNextHubs() {
+    // Xóa sạch marker cũ trên bản đồ
+    markersGroup.clearLayers();
 
-        Object.keys(hubs).forEach(hubId => {
-            if (hubId === currentHubId) return;
-            const nextHub = hubs[hubId];
-            const route = routes.find(r => r.from === currentHubId && r.to === hubId);
-            
-            // Chỉ vẽ các Hub có thể đi tiếp từ vị trí hiện tại
-            if (route) {
-                const marker = L.marker([nextHub.lat, nextHub.lng], {
-                    icon: L.divIcon({ className: 'custom-hub-icon active-hub', iconSize: [14, 14] })
-                }).addTo(markersGroup);
+    Object.keys(hubs).forEach(hubId => {
+        if (hubId === currentHubId) return; 
+        const nextHub = hubs[hubId];
+        const route = routes.find(r => r.from === currentHubId && r.to === hubId);
+        const isReachable = !!route; 
+        const iconClass = isReachable ? 'custom-hub-icon active-hub' : 'custom-hub-icon inactive-hub';
+        const marker = L.marker([nextHub.lat, nextHub.lng], {
+            icon: L.divIcon({ className: iconClass, iconSize: [14, 14] })
+        }).addTo(markersGroup);
 
-                marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
+         marker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
 
-                let popupContent = `<div class="mode-selection-popup">`;
-                route.modes.forEach((mode, index) => { 
-                    popupContent += `<div class="mode-btn" onclick="selectMode('${hubId}', ${index})" title="${mode.name} (${mode.distance} km)">${mode.icon}</div>`; 
-                });
-                popupContent += `</div>`;
-                marker.bindPopup(popupContent);
-            }
-        });
-    }
-
+        if (isReachable) {
+                       let popupContent = `<div class="mode-selection-popup">`;
+            route.modes.forEach((mode, index) => { 
+                popupContent += `<div class="mode-btn" onclick="selectMode('${hubId}', ${index})" title="${mode.name} (${mode.distance} km)">${mode.icon}</div>`; 
+            });
+            popupContent += `</div>`;
+            marker.bindPopup(popupContent);
+        } else {
+                       marker.bindPopup(`<div style="padding: 5px; font-size: 12px; text-align: center;">🔒 <b>${nextHub.name}</b><br><span style="color: #666; font-size: 11px;">Cần di chuyển đến trạm trung chuyển thích hợp để kết nối.</span></div>`);
+        }
+    });
+}
     window.selectMode = function(nextHubId, modeIndex) {
         const route = routes.find(r => r.from === currentHubId && r.to === nextHubId);
         const selectedMode = route.modes[modeIndex];
