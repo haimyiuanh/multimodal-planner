@@ -68,18 +68,15 @@ body, html {
     color: #ffffff;
     transform: scale(1.05); 
 }
-
-/* --- MÀN HÌNH BẢN ĐỒ & DASHBOARD --- */
-#map-screen { 
-    display: none; 
-    height: 100vh; 
-    width: 100vw; 
-    position: relative; 
+#map {
+    width: 100%;
+    height: 500px; 
+    position: relative;
 }
 
-#map { 
-    height: 100%; 
-    width: 100%; 
+#map-screen {
+    width: 100%;
+    height: 100vh;
 }
 
 .dashboard-panel {
