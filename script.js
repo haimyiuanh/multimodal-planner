@@ -343,7 +343,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('stat-distance').innerText = totalDistance.toLocaleString('en-US');
     }
 
-    function startTimer() {
+ function startTimer() {
         const display = document.getElementById('timer-panel');
         if (!display) return;
 
@@ -359,10 +359,19 @@ document.addEventListener("DOMContentLoaded", function() {
         window.timerInterval = setInterval(function () {
             let currentEndTime = parseInt(sessionStorage.getItem('timerEndTime')) || (Date.now() + 10 * 60 * 1000);
             let timeLeft = Math.floor((currentEndTime - Date.now()) / 1000);
-            if (timeLeft < 0) timeLeft = 0;
+
+            if (timeLeft <= 0) {
+                timeLeft = 0;
+                clearInterval(window.timerInterval); 
+                
+                display.textContent = "00:00";
+                setTimeout(function() {
+                    alert("⏰ Đã hết thời gian làm bài!");
+                }, 100);
+                return;
+            }
 
             let m = parseInt(timeLeft / 60, 10), s = parseInt(timeLeft % 60, 10);
             display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
         }, 1000);
-    }
-});
+    });
