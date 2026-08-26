@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
     let map, currentLocationMarker;
-    
     let currentHubId = 'pleiku';
     let totalTime = 0, totalCost = 0, totalDistance = 0, totalCO2 = 0;
 
@@ -50,21 +49,9 @@ document.addEventListener("DOMContentLoaded", function() {
             from: 'dong_dang', 
             to: 'istanbul', 
             segments: [
-                {
-                    path: [[21.9438, 106.6972], [22.1100, 106.7600], [34.3416, 108.9398], [44.1300, 80.4200], [43.2220, 76.8512], [43.6500, 51.1500]],
-                    color: 'green',
-                    type: 'rail'
-                },
-                {
-                    path: [[43.6500, 51.1500], [40.4093, 49.8671]],
-                    color: 'blue',
-                    type: 'ship'
-                },
-                {
-                    path: [[40.4093, 49.8671], [41.7151, 44.8271], [40.6013, 43.0975], [41.0082, 28.9784]],
-                    color: 'green',
-                    type: 'rail'
-                }
+                { path: [[21.9438, 106.6972], [22.1100, 106.7600], [34.3416, 108.9398], [44.1300, 80.4200], [43.2220, 76.8512], [43.6500, 51.1500]], color: 'green', type: 'rail' },
+                { path: [[43.6500, 51.1500], [40.4093, 49.8671]], color: 'blue', type: 'ship' },
+                { path: [[40.4093, 49.8671], [41.7151, 44.8271], [40.6013, 43.0975], [41.0082, 28.9784]], color: 'green', type: 'rail' }
             ],
             modes: [
                 { type: 'rail', icon: '🚂', name: 'Đường sắt & Phà (Middle Corridor)', cost: 3200.0, time: 18.0, co2: 1200.0, distance: 4764, color: 'green' }
@@ -121,15 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
         {
             from: 'cai_mep', 
             to: 'singapore_port', 
-            path: [
-                [10.5500, 107.0333], 
-                [7.0000, 105.0000], 
-                [3.0000, 104.8000], 
-                [1.6000, 104.6000], 
-                [1.3000, 104.3500], 
-                [1.2200, 104.0500], 
-                [1.2644, 103.8400]
-            ],
+            path: [[10.5500, 107.0333], [7.0000, 105.0000], [3.0000, 104.8000], [1.6000, 104.6000], [1.3000, 104.3500], [1.2200, 104.0500], [1.2644, 103.8400]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển', cost: 835.8, time: 3.8, co2: 417.9, distance: 1393, color: 'blue' }] 
         },
         { 
@@ -153,9 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'singapore_port', 
             to: 'istanbul', 
-            path: [
-                [1.2644, 103.8400], [2.5000, 101.5000], [5.5000, 97.5000], [5.8000, 80.5000], [12.0000, 52.0000], [12.6000, 43.4000], [20.0000, 38.5000], [27.8000, 34.0000], [29.9300, 32.5600], [31.2600, 32.3000], [34.0000, 27.0000], [36.5000, 25.5000], [40.0500, 26.2000], [40.7000, 27.8000], [41.0082, 28.9784]
-            ],
+            path: [[1.2644, 103.8400], [2.5000, 101.5000], [5.5000, 97.5000], [5.8000, 80.5000], [12.0000, 52.0000], [12.6000, 43.4000], [20.0000, 38.5000], [27.8000, 34.0000], [29.9300, 32.5600], [31.2600, 32.3000], [34.0000, 27.0000], [36.5000, 25.5000], [40.0500, 26.2000], [40.7000, 27.8000], [41.0082, 28.9784]],
             modes: [{ type: 'ship', icon: '🚢', name: 'Đường biển (đi thẳng qua kênh Suez)', cost: 1838.9, time: 26.0, co2: 3677.7, distance: 12259, color: 'blue' }] 
         },
         { 
@@ -343,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('stat-distance').innerText = totalDistance.toLocaleString('en-US');
     }
 
- function startTimer() {
+    function startTimer() {
         const display = document.getElementById('timer-panel');
         if (!display) return;
 
@@ -374,4 +351,5 @@ document.addEventListener("DOMContentLoaded", function() {
             let m = parseInt(timeLeft / 60, 10), s = parseInt(timeLeft % 60, 10);
             display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
         }, 1000);
-    });
+    }
+});
