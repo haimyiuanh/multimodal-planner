@@ -162,7 +162,37 @@ document.addEventListener("DOMContentLoaded", function() {
             to: 'dubai', 
             path: [[25.0145, 55.0592], [25.2532, 55.3657]],
             modes: [{ type: 'truck', icon: '🚚', name: 'Trung chuyển Sea-Air', cost: 50.0, time: 0.1, co2: 18.0, distance: 40, color: 'blue' }] 
-}
+        },
+        { 
+            from: 'hong_kong', 
+            to: 'singapore', 
+            path: [[22.3080, 113.9185], [1.3644, 103.9915]],
+            modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 5800.5, time: 0.67, co2: 7734.0, distance: 2578, color: 'purple' }] 
+        },
+        { 
+            from: 'hong_kong', 
+            to: 'dubai', 
+            path: [[22.3080, 113.9185], [25.2532, 55.3657]],
+            modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 13320.0, time: 0.89, co2: 17760.0, distance: 5920, color: 'purple' }] 
+        },
+        { 
+            from: 'hong_kong', 
+            to: 'doha', 
+            path: [[22.3080, 113.9185], [25.2731, 51.6081]],
+            modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 14163.75, time: 0.92, co2: 18885.0, distance: 6295, color: 'purple' }] 
+        },
+        { 
+            from: 'singapore', 
+            to: 'hong_kong', 
+            path: [[1.3644, 103.9915], [22.3080, 113.9185]],
+            modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 5773.5, time: 0.67, co2: 7698.0, distance: 2566, color: 'purple' }] 
+        },
+        { 
+            from: 'singapore', 
+            to: 'dubai', 
+            path: [[1.3644, 103.9915], [25.2532, 55.3657]],
+            modes: [{ type: 'air', icon: '✈️', name: 'Hàng không', cost: 13153.5, time: 0.89, co2: 17538.0, distance: 5846, color: 'purple' }] 
+        },
     ];
 
     const introScreen = document.getElementById('intro-screen');
