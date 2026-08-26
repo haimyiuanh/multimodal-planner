@@ -49,8 +49,22 @@ document.addEventListener("DOMContentLoaded", function() {
         { 
             from: 'dong_dang', 
             to: 'istanbul', 
-            path: [
-                [21.9438, 106.6972],[22.1100, 106.7600],[34.3416, 108.9398],[44.1300, 80.4200],[43.2220, 76.8512],[43.6500, 51.1500],[40.4093, 49.8671],[41.7151, 44.8271],[40.6013, 43.0975],[41.0082, 28.9784]   
+            segments: [
+                {
+                    path: [[21.9438, 106.6972], [22.1100, 106.7600], [34.3416, 108.9398], [44.1300, 80.4200], [43.2220, 76.8512], [43.6500, 51.1500]],
+                    color: 'green',
+                    type: 'rail'
+                },
+                {
+                    path: [[43.6500, 51.1500], [40.4093, 49.8671]],
+                    color: 'blue',
+                    type: 'ship'
+                },
+                {
+                    path: [[40.4093, 49.8671], [41.7151, 44.8271], [40.6013, 43.0975], [41.0082, 28.9784]],
+                    color: 'green',
+                    type: 'rail'
+                }
             ],
             modes: [
                 { type: 'rail', icon: '🚂', name: 'Đường sắt & Phà (Middle Corridor)', cost: 3200.0, time: 18.0, co2: 1200.0, distance: 4764, color: 'green' }
@@ -286,16 +300,26 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedMode = route.modes[modeIndex];
         const nextHub = hubs[nextHubId];
         
-        const routeCoords = route.path ? route.path : [
-            [hubs[currentHubId].lat, hubs[currentHubId].lng], 
-            [nextHub.lat, nextHub.lng]
-        ];
-        
-        L.polyline(routeCoords, {
-            color: selectedMode.color, 
-            weight: 4, 
-            dashArray: selectedMode.type === 'air' ? '6, 6' : (selectedMode.type === 'rail' ? '12, 6' : null)
-        }).addTo(map);
+        if (route.segments) {
+            route.segments.forEach(seg => {
+                L.polyline(seg.path, {
+                    color: seg.color || selectedMode.color, 
+                    weight: 4, 
+                    dashArray: seg.type === 'air' ? '6, 6' : (seg.type === 'rail' ? '12, 6' : null)
+                }).addTo(map);
+            });
+        } else {
+            const routeCoords = route.path ? route.path : [
+                [hubs[currentHubId].lat, hubs[currentHubId].lng], 
+                [nextHub.lat, nextHub.lng]
+            ];
+            
+            L.polyline(routeCoords, {
+                color: selectedMode.color, 
+                weight: 4, 
+                dashArray: selectedMode.type === 'air' ? '6, 6' : (selectedMode.type === 'rail' ? '12, 6' : null)
+            }).addTo(map);
+        }
         
         currentLocationMarker.setLatLng([nextHub.lat, nextHub.lng]);
         currentLocationMarker.bindTooltip(nextHub.name, { permanent: true, direction: 'bottom', className: 'hub-label' });
