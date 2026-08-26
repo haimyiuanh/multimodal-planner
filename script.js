@@ -64,9 +64,15 @@ function initApp() {
         startTimer();
     }
 
-    if (sessionStorage.getItem('appStarted') === 'true') {
-        showMap();
-    } else {
+    // ĐÃ FIX LỖI 1: Bọc try...catch để không bị sập khi chạy file Local
+    try {
+        if (sessionStorage.getItem('appStarted') === 'true') {
+            showMap();
+        } else {
+            if (introScreen) introScreen.style.display = 'flex';
+            if (mapScreen) mapScreen.style.display = 'none';
+        }
+    } catch (e) {
         if (introScreen) introScreen.style.display = 'flex';
         if (mapScreen) mapScreen.style.display = 'none';
     }
@@ -75,8 +81,13 @@ function initApp() {
     if (startBtn) {
         startBtn.onclick = function(e) {
             e.preventDefault();
-            sessionStorage.setItem('appStarted', 'true');
-            sessionStorage.setItem('timerEndTime', Date.now() + 10 * 60 * 1000);
+            // ĐÃ FIX LỖI 2: Chống sập sự kiện click
+            try {
+                sessionStorage.setItem('appStarted', 'true');
+                sessionStorage.setItem('timerEndTime', Date.now() + 10 * 60 * 1000);
+            } catch (error) {
+                window.localSessionTime = Date.now() + 10 * 60 * 1000;
+            }
             showMap();
         };
     }
@@ -219,15 +230,18 @@ function initApp() {
 
         if (window.timerInterval) clearInterval(window.timerInterval);
 
-        let endTime = sessionStorage.getItem('timerEndTime');
-        let now = Date.now();
-        if (!endTime || parseInt(endTime) <= now) {
-            endTime = now + 10 * 60 * 1000;
-            sessionStorage.setItem('timerEndTime', endTime);
-        }
+        // ĐÃ FIX LỖI 3: Giúp bộ đếm thời gian chạy trơn tru kể cả khi bị chặn Storage
+        let currentEndTime = window.localSessionTime || (Date.now() + 10 * 60 * 1000);
+        try {
+            let storageTime = sessionStorage.getItem('timerEndTime');
+            if (!storageTime || parseInt(storageTime) <= Date.now()) {
+                sessionStorage.setItem('timerEndTime', currentEndTime);
+            } else {
+                currentEndTime = parseInt(storageTime);
+            }
+        } catch(e) {}
 
         window.timerInterval = setInterval(function () {
-            let currentEndTime = parseInt(sessionStorage.getItem('timerEndTime')) || (Date.now() + 10 * 60 * 1000);
             let timeLeft = Math.floor((currentEndTime - Date.now()) / 1000);
 
             if (timeLeft <= 0) {
